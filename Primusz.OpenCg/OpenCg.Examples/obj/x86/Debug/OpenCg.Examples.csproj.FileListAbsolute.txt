@@ -1,0 +1,16 @@
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenCg.Examples.exe.config
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\Resources\cg.ico
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenCg.Examples.exe
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenCg.Examples.pdb
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenCg.dll
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenTK.dll
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenTK.GLControl.dll
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenCg.pdb
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenTK.xml
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenTK.GLControl.xml
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\obj\x86\Debug\OpenCg.Examples.csprojResolveAssemblyReference.cache
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\obj\x86\Debug\OpenCg.Examples.MainForm.resources
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\obj\x86\Debug\OpenCg.Examples.Properties.Resources.resources
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\obj\x86\Debug\OpenCg.Examples.csproj.GenerateResource.Cache
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\obj\x86\Debug\OpenCg.Examples.exe
+W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\obj\x86\Debug\OpenCg.Examples.pdb

@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9B606262-A74F-496C-8B19-D88CFDC9C29A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenCg.Examples</RootNamespace>
+    <AssemblyName>OpenCg.Examples</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.1.1.1589.5942\lib\NET40\OpenTK.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.GLControl.1.1.1589.5942\lib\NET40\OpenTK.GLControl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\Images\ImageBrick.cs" />
+    <Compile Include="Data\Images\ImageDemon.cs" />
+    <Compile Include="Data\Images\ImageNormcm.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IExample.cs" />
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="OpenTK\BaseExample.cs" />
+    <Compile Include="OpenTK\Basic\FragmentProgram.cs" />
+    <Compile Include="OpenTK\Basic\TextureSampling.cs" />
+    <Compile Include="OpenTK\Basic\TwoTextureAccesses.cs" />
+    <Compile Include="OpenTK\Basic\UniformParameter.cs" />
+    <Compile Include="OpenTK\Basic\VaryingParameter.cs" />
+    <Compile Include="OpenTK\Basic\VertexProgram.cs" />
+    <Compile Include="OpenTK\Basic\VertexTransform.cs" />
+    <Compile Include="OpenTK\Basic\VertexTwisting.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Data\Shaders\C2E1v_green.cg" />
+    <None Include="Data\Shaders\C2E2f_passthru.cg" />
+    <None Include="Data\Shaders\C3E1v_anycolor.cg" />
+    <None Include="Data\Shaders\C3E2v_varying.cg" />
+    <None Include="Data\Shaders\C3E3f_texture.cg" />
+    <None Include="Data\Shaders\C3E4v_twist.cg" />
+    <None Include="Data\Shaders\C3E5v_twoTextures.cg" />
+    <None Include="Data\Shaders\C3E6f_twoTextures.cg" />
+    <None Include="Data\Shaders\C4E1v_transform.cg" />
+    <None Include="Data\Shaders\C5E1v_basicLight.cg" />
+    <None Include="Data\Shaders\C5E2v_fragmentLighting.cg" />
+    <None Include="Data\Shaders\C5E3f_basicLight.cg" />
+    <None Include="Data\Shaders\C6E1v_bulge.cg" />
+    <None Include="Data\Shaders\C6E2v_particle.cg" />
+    <None Include="Data\Shaders\C8E1v_bumpWall.cg" />
+    <None Include="Data\Shaders\C8E2f_bumpSurf.cg" />
+    <None Include="Data\Shaders\C9E5v_projTex.cg" />
+    <None Include="Data\Shaders\C9E6f_projTex.cg" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\cg.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenCg\OpenCg.csproj">
+      <Project>{75d8410e-684c-485a-84e4-3821ddefe470}</Project>
+      <Name>OpenCg</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
