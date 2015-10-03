@@ -41,6 +41,8 @@ namespace OpenCg.Examples
                         break;
                     case 7: example = new VertexTransform();
                         break;
+                    case 8: example = new VertexLighting();
+                        break;
                     default:
                         break;
                 }

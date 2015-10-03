@@ -1,5 +1,4 @@
 W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenCg.Examples.exe.config
-W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\Resources\cg.ico
 W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenCg.Examples.exe
 W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenCg.Examples.pdb
 W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg.Examples\bin\Debug\OpenCg.dll

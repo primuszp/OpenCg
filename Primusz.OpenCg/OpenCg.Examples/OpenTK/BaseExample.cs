@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Drawing;
 using OpenTK;
 using OpenCg.Graphics;
 
@@ -21,6 +24,7 @@ namespace OpenCg.Examples.OpenTK
             : base(width, height)
         {
             Title = title;
+            Icon = new Icon(GetEmbeddedResourceStream("Resources/cg.ico"));
         }
 
         private void CgErrorDelegate()
@@ -406,7 +410,7 @@ namespace OpenCg.Examples.OpenTK
             axis[1] = ay;
             axis[2] = az;
             float mag = (float)Math.Sqrt(axis[0] * axis[0] + axis[1] * axis[1] + axis[2] * axis[2]);
-           
+
             if (Math.Abs(mag) > double.Epsilon)
             {
                 axis[0] /= mag;
@@ -554,5 +558,25 @@ namespace OpenCg.Examples.OpenTK
         }
 
         #endregion Private Static Methods
+
+        #region Resource Helper
+
+        // See: http://www.vcskicks.com/embedded-resource.php
+
+        public Stream GetEmbeddedResourceStream(string resourceName)
+        {
+            Assembly assembly = Assembly.GetAssembly(typeof (BaseExample));
+            resourceName = FormatResourceName(assembly, resourceName);
+            return assembly.GetManifestResourceStream(resourceName);
+        }
+
+        private string FormatResourceName(Assembly assembly, string resourceName)
+        {
+            return assembly.GetName().Name + "." + resourceName.Replace(" ", "_")
+                .Replace("\\", ".")
+                .Replace("/", ".");
+        }
+
+        #endregion
     }
 }

@@ -68,6 +68,7 @@
     <Compile Include="OpenTK\Basic\TwoTextureAccesses.cs" />
     <Compile Include="OpenTK\Basic\UniformParameter.cs" />
     <Compile Include="OpenTK\Basic\VaryingParameter.cs" />
+    <Compile Include="OpenTK\Basic\VertexLighting.cs" />
     <Compile Include="OpenTK\Basic\VertexProgram.cs" />
     <Compile Include="OpenTK\Basic\VertexTransform.cs" />
     <Compile Include="OpenTK\Basic\VertexTwisting.cs" />
@@ -117,15 +118,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\cg.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\OpenCg\OpenCg.csproj">
       <Project>{75d8410e-684c-485a-84e4-3821ddefe470}</Project>
       <Name>OpenCg</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\cg.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

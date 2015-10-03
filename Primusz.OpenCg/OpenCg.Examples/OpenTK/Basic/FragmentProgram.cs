@@ -7,8 +7,7 @@ using OpenTK.Input;
 
 #region Original Credits / License
 
-// 02_vertex_and_fragment_program.c - OpenGL-based example using a Cg
-// vertex and a Cg fragment programs from Chapter 2 of "The Cg Tutorial" (Addison-Wesley, ISBN 0321194969).
+// OpenGL-based example using a Cg vertex and a Cg fragment programs from Chapter 2 of "The Cg Tutorial" (Addison-Wesley, ISBN 0321194969).
 
 #endregion
 
@@ -23,24 +22,27 @@ namespace OpenCg.Examples.OpenTK.Basic
 {
     class FragmentProgram : BaseExample
     {
-        #region Private fields
+        #region Members
 
-        private const string VertexProgramFileName = "..\\..\\Data\\Shaders\\C2E1v_green.cg";
-        private const string FragmentProgramFileName = "..\\..\\Data\\Shaders\\C2E2f_passthru.cg";
-        private const string CgVertexEntryFuncName = "C2E1v_green";
-        private const string CgFragmentEntryFuncName = "C2E2f_passthru";
+        private string vertexProgramFileName = "..\\..\\Data\\Shaders\\C2E1v_green.cg";
+        private string fragmentProgramFileName = "..\\..\\Data\\Shaders\\C2E2f_passthru.cg";
+        private string cgVertexEntryFuncName = "C2E1v_green";
+        private string cgFragmentEntryFuncName = "C2E2f_passthru";
 
         private CgProfile cgVertexProfile = CgProfile.Unknown;
         private CgProfile cgFragmentProfile = CgProfile.Unknown;
 
-        private CgProgram cgVertexProgram;
-        private CgProgram cgFragmentProgram;
+        private CgProgram cgVertexProgram, cgFragmentProgram;
 
         #endregion
+
+        #region Constructors
 
         public FragmentProgram()
             : base("Cg Tutorial 02: Fragment program", 400, 400)
         { }
+
+        #endregion
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -81,9 +83,9 @@ namespace OpenCg.Examples.OpenTK.Basic
             cgVertexProgram = Cg.CreateProgramFromFile(
                context,                  // Cg runtime context
                CgEnum.Source,            // Program in human-readable form
-               VertexProgramFileName,    // Name of file containing program
+               vertexProgramFileName,    // Name of file containing program
                cgVertexProfile,          // Profile: OpenGL ARB vertex program
-               CgVertexEntryFuncName,    // Entry function name
+               cgVertexEntryFuncName,    // Entry function name
                vArgs);                   // Extra compiler options
 
             CgGL.LoadProgram(cgVertexProgram);
@@ -102,9 +104,9 @@ namespace OpenCg.Examples.OpenTK.Basic
             cgFragmentProgram = Cg.CreateProgramFromFile(
                context,                   // Cg runtime context */
                CgEnum.Source,             // Program in human-readable form */
-               FragmentProgramFileName,   // Name of file containing program */
+               fragmentProgramFileName,   // Name of file containing program */
                cgFragmentProfile,         // Profile: OpenGL ARB vertex program */
-               CgFragmentEntryFuncName,   // Entry function name */
+               cgFragmentEntryFuncName,   // Entry function name */
                fArgs);                    // Extra compiler options */
 
             CgGL.LoadProgram(cgFragmentProgram);
@@ -118,6 +120,8 @@ namespace OpenCg.Examples.OpenTK.Basic
             Cg.DestroyContext(context);
             Environment.Exit(0);
         }
+
+        #region Methods
 
         private void Reshape()
         {
@@ -165,7 +169,7 @@ namespace OpenCg.Examples.OpenTK.Basic
 
         private void DrawStar(float x, float y, int starPoints, float R, float r)
         {
-            double piOverStarPoints = Math.PI / starPoints, angle = 0.0;
+            double piOverStarPoints = Math.PI/starPoints, angle = 0.0;
 
             GL.Begin(PrimitiveType.TriangleFan);
             {
@@ -177,9 +181,9 @@ namespace OpenCg.Examples.OpenTK.Basic
 
                 for (int i = 0; i < starPoints; i++)
                 {
-                    GL.Vertex2((float)(x + R * Math.Cos(angle)), (float)(y + R * Math.Sin(angle)));
+                    GL.Vertex2((float) (x + R*Math.Cos(angle)), (float) (y + R*Math.Sin(angle)));
                     angle += piOverStarPoints;
-                    GL.Vertex2((float)(x + r * Math.Cos(angle)), (float)(y + r * Math.Sin(angle)));
+                    GL.Vertex2((float) (x + r*Math.Cos(angle)), (float) (y + r*Math.Sin(angle)));
                     angle += piOverStarPoints;
                 }
 
@@ -187,9 +191,11 @@ namespace OpenCg.Examples.OpenTK.Basic
 
                 angle = 0;
 
-                GL.Vertex2((float)(x + R * Math.Cos(angle)), (float)(y + R * Math.Sin(angle)));
+                GL.Vertex2((float) (x + R*Math.Cos(angle)), (float) (y + R*Math.Sin(angle)));
             }
             GL.End();
         }
+
+        #endregion
     }
 }

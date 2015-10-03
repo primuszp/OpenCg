@@ -7,7 +7,7 @@ using OpenTK.Input;
 
 #region Original Credits / License
 
-// 01_vertex_program.c - OpenGL-based very simple vertex program example
+// OpenGL-based very simple vertex program example
 // using Cg program from Chapter 2 of "The Cg Tutorial" (Addison-Wesley, ISBN 0321194969).
 
 #endregion
@@ -25,17 +25,21 @@ namespace OpenCg.Examples.OpenTK.Basic
     {
         #region Members
 
-        private const string VertexProgramFileName = "..\\..\\Data\\Shaders\\C2E1v_green.cg";
-        private const string CgVertexEntryFuncName = "C2E1v_green";
+        private string vertexProgramFileName = "..\\..\\Data\\Shaders\\C2E1v_green.cg";
+        private string cgVertexEntryFuncName = "C2E1v_green";
 
         private CgProfile cgVertexProfile = CgProfile.Unknown;
         private CgProgram cgVertexProgram;
 
         #endregion
 
+        #region Constructors
+
         public VertexProgram()
             : base("Cg Tutorial 01: Vertex program", 400, 400)
         { }
+
+        #endregion
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -76,9 +80,9 @@ namespace OpenCg.Examples.OpenTK.Basic
             cgVertexProgram = Cg.CreateProgramFromFile(
                context,                  // Cg runtime context
                CgEnum.Source,            // Program in human-readable form
-               VertexProgramFileName,    // Name of file containing program
+               vertexProgramFileName,    // Name of file containing program
                cgVertexProfile,          // Profile: OpenGL ARB vertex program
-               CgVertexEntryFuncName,    // Entry function name
+               cgVertexEntryFuncName,    // Entry function name
                args);                    // Extra compiler options
 
             CgGL.LoadProgram(cgVertexProgram);
@@ -91,6 +95,8 @@ namespace OpenCg.Examples.OpenTK.Basic
             Cg.DestroyContext(context);
             Environment.Exit(0);
         }
+
+        #region Methods
 
         private void Reshape()
         {
@@ -124,5 +130,7 @@ namespace OpenCg.Examples.OpenTK.Basic
 
             SwapBuffers();
         }
+
+        #endregion
     }
 }
