@@ -1,5 +1,0 @@
-W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg\bin\Debug\OpenCg.dll
-W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg\bin\Debug\OpenCg.pdb
-W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg\obj\Debug\OpenCg.csprojResolveAssemblyReference.cache
-W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg\obj\Debug\OpenCg.dll
-W:\Programming\Projects\Primusz\OpenCg\Primusz.OpenCg\OpenCg\obj\Debug\OpenCg.pdb
