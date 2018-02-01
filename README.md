@@ -8,7 +8,7 @@ OpenCg is an open source, easy to use, managed library which enables .NET applic
 
 Details: https://developer.nvidia.com/cg-toolkit
 
-Cg 3.1 Toolkit Documentation: http://http.developer.nvidia.com/Cg/
+Cg 3.1 Toolkit Documentation: http://developer.download.nvidia.com/cg/
 
 ## Downloads
 
