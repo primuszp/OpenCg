@@ -142,7 +142,7 @@ namespace OpenCg.Examples.OpenTK.Basic
             CgGL.BindProgram(cgFragmentProgram);
             CgGL.EnableProfile(cgFragmentProfile);
 
-            GL.Begin(PrimitiveType.Triangles);
+            GL.Begin(BeginMode.Triangles);
             {
                 GL.Color3(1f, 0f, 0f); /* Red */
                 GL.Vertex2(-0.8f, 0.8f);

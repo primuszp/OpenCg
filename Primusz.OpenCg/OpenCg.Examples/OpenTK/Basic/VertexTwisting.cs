@@ -216,7 +216,7 @@ namespace OpenCg.Examples.OpenTK.Basic
                     cb = { 0, 0, 1 },
                     cc = { 0.7f, 0.7f, 1 };
 
-            GL.Begin(PrimitiveType.Triangles);
+            GL.Begin(BeginMode.Triangles);
             {
                 TriangleDivide(subdivisions, a, b, c, ca, cb, cc);
             }

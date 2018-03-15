@@ -223,3 +223,7 @@ pip-log.txt
 *.dwl
 *.dwl2
 Test Data/Plan 01.dwg.original
+*.lock
+*.ide
+*.ide-shm
+*.ide-wal

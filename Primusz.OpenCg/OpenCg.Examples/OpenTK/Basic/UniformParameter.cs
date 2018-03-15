@@ -177,7 +177,7 @@ namespace OpenCg.Examples.OpenTK.Basic
 
             Cg.UpdateProgramParameters(cgVertexProgram);
 
-            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Begin(BeginMode.TriangleFan);
 
             /* Center of star */
 

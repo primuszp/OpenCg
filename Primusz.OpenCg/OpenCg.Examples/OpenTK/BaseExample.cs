@@ -565,7 +565,7 @@ namespace OpenCg.Examples.OpenTK
 
         public Stream GetEmbeddedResourceStream(string resourceName)
         {
-            Assembly assembly = Assembly.GetAssembly(typeof (BaseExample));
+            Assembly assembly = Assembly.GetAssembly(typeof(BaseExample));
             resourceName = FormatResourceName(assembly, resourceName);
             return assembly.GetManifestResourceStream(resourceName);
         }
@@ -573,8 +573,7 @@ namespace OpenCg.Examples.OpenTK
         private string FormatResourceName(Assembly assembly, string resourceName)
         {
             return assembly.GetName().Name + "." + resourceName.Replace(" ", "_")
-                .Replace("\\", ".")
-                .Replace("/", ".");
+                .Replace("\\", ".").Replace("/", ".");
         }
 
         #endregion

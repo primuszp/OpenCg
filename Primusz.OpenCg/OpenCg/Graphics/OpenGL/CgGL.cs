@@ -27,41 +27,7 @@ namespace OpenCg.Graphics.OpenGL
         /// <returns>Returns a null-terminated array of strings representing the optimal set of compiler options for profile. Returns NULL if profile isn't supported by the current driver or GPU.</returns>
         public static string[] GetOptimalOptions(CgProfile profile)
         {
-            IntPtr ptr = cgGLGetOptimalOptions(profile);
-
-            unsafe
-            {
-                var byteArray = (byte**)ptr;
-                var buffer = new List<byte>();
-                var lines = new List<string>();
-
-                for (; ; )
-                {
-                    byte* b = *byteArray;
-                    for (; ; )
-                    {
-                        if (*b == '\0')
-                        {
-                            char[] cc = Encoding.ASCII.GetChars(buffer.ToArray());
-                            lines.Add(new string(cc));
-                            buffer.Clear();
-                            break;
-                        }
-
-                        buffer.Add(*b);
-                        b++;
-                    }
-
-                    byteArray++;
-
-                    if (*byteArray == null)
-                    {
-                        break;
-                    }
-                }
-                lines.Add(null);
-                return lines.ToArray();
-            }
+            return Cg.IntPtrToStringArray(cgGLGetOptimalOptions(profile));
         }
 
         /// <summary>
@@ -2336,7 +2302,7 @@ namespace OpenCg.Graphics.OpenGL
         /// <param name="data">The inital data to be copied into the buffer. NULL will fill the buffer with zero.</param>
         /// <param name="bufferUsage">One of the usage flags specified as valid for glBufferData. The symbolic constant must be GL_STREAM_DRAW, GL_STREAM_READ, GL_STREAM_COPY, GL_STATIC_DRAW, GL_STATIC_READ, GL_STATIC_COPY, GL_DYNAMIC_DRAW, GL_DYNAMIC_READ, or GL_DYNAMIC_COPY.</param>
         /// <returns>Returns a CgBuffer handle on success. Returns NULL if any error occurs.</returns>
-        public static CgBuffer CreateBuffer<T2>(CgContext context, int size, [In, Out] T2[, ,] data, int bufferUsage) where T2 : struct
+        public static CgBuffer CreateBuffer<T2>(CgContext context, int size, [In, Out] T2[,,] data, int bufferUsage) where T2 : struct
         {
             GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
             try

@@ -41,7 +41,7 @@
             this.btnRun.TabIndex = 0;
             this.btnRun.Text = "Run";
             this.btnRun.UseVisualStyleBackColor = true;
-            this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
+            this.btnRun.Click += new System.EventHandler(this.BtnRunClick);
             // 
             // listBox
             // 
@@ -60,7 +60,7 @@
             this.listBox.Name = "listBox";
             this.listBox.Size = new System.Drawing.Size(260, 199);
             this.listBox.TabIndex = 1;
-            this.listBox.SelectedIndexChanged += new System.EventHandler(this.listBox_SelectedIndexChanged);
+            this.listBox.SelectedIndexChanged += new System.EventHandler(this.ListBoxSelectedIndexChanged);
             // 
             // MainForm
             // 

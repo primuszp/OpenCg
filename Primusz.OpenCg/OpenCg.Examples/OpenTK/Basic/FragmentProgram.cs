@@ -171,7 +171,7 @@ namespace OpenCg.Examples.OpenTK.Basic
         {
             double piOverStarPoints = Math.PI/starPoints, angle = 0.0;
 
-            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Begin(BeginMode.TriangleFan);
             {
                 /* Center of star */
 

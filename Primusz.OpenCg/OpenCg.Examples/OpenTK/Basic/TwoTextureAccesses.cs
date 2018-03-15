@@ -187,7 +187,7 @@ namespace OpenCg.Examples.OpenTK.Basic
 
             CgGL.EnableTextureParameter(fragmentParamDecal);
 
-            GL.Begin(PrimitiveType.Triangles);
+            GL.Begin(BeginMode.Triangles);
             {
                 GL.TexCoord2(0, 0);
                 GL.Vertex2(-0.8f, 0.8f);

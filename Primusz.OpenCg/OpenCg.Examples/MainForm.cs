@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using OpenCg.Examples.OpenTK;
 using OpenCg.Examples.OpenTK.Basic;
 
 namespace OpenCg.Examples
@@ -19,7 +13,7 @@ namespace OpenCg.Examples
             InitializeComponent();
         }
 
-        private void listBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListBoxSelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBox.SelectedItem != null)
             {
@@ -43,18 +37,13 @@ namespace OpenCg.Examples
                         break;
                     case 8: example = new VertexLighting();
                         break;
-                    default:
-                        break;
                 }
             }
         }
 
-        private void btnRun_Click(object sender, EventArgs e)
+        private void BtnRunClick(object sender, EventArgs e)
         {
-            if (example != null)
-            {
-                example.Start();
-            }
+            example?.Start();
         }
     }
 }

@@ -118,7 +118,7 @@ namespace OpenCg.Examples.OpenTK.Basic
             CgGL.BindProgram(cgVertexProgram);
             CgGL.EnableProfile(cgVertexProfile);
 
-            GL.Begin(PrimitiveType.Triangles);
+            GL.Begin(BeginMode.Triangles);
             {
                 GL.Vertex2(-0.8f, +0.8f);
                 GL.Vertex2(+0.8f, +0.8f);
