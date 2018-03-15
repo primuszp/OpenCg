@@ -47,15 +47,16 @@
             // 
             this.listBox.FormattingEnabled = true;
             this.listBox.Items.AddRange(new object[] {
-            "Vertex Program",
-            "Fragment Program",
-            "Uniform Parameter",
-            "Varying Parameter",
-            "Texture Sampling",
-            "Vertex Twisting",
-            "Two Texture Accesses",
-            "Vertex Transform",
-            "Vertex Lighting"});
+            "[01] Vertex Program",
+            "[02] Fragment Program",
+            "[03] Uniform Parameter",
+            "[04] Varying Parameter",
+            "[05] Texture Sampling",
+            "[06] Vertex Twisting",
+            "[07] Two Texture Accesses",
+            "[08] Vertex Transform",
+            "[09] Vertex Lighting",
+            "[10] Fragment Lighting"});
             this.listBox.Location = new System.Drawing.Point(12, 12);
             this.listBox.Name = "listBox";
             this.listBox.Size = new System.Drawing.Size(260, 199);

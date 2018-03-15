@@ -58,6 +58,7 @@
     <Compile Include="IExample.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="OpenTK\BaseExample.cs" />
+    <Compile Include="OpenTK\Basic\FragmentLighting.cs" />
     <Compile Include="OpenTK\Basic\FragmentProgram.cs" />
     <Compile Include="OpenTK\Basic\TextureSampling.cs" />
     <Compile Include="OpenTK\Basic\TwoTextureAccesses.cs" />

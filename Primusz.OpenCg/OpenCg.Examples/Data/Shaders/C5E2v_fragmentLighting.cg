@@ -14,4 +14,3 @@ void C5E2v_fragmentLighting(float4 position : POSITION,
   objectPos = position.xyz;
   oNormal = normal;
 }
-
