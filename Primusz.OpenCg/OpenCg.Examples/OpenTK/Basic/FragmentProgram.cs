@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using OpenCg.Graphics;
 using OpenCg.Graphics.OpenGL;
-using OpenTK;
+using OpenTK.Windowing.Desktop;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 #region Original Credits / License
 
@@ -24,8 +25,8 @@ namespace OpenCg.Examples.OpenTK.Basic
     {
         #region Members
 
-        private string vertexProgramFileName = "..\\..\\Data\\Shaders\\C2E1v_green.cg";
-        private string fragmentProgramFileName = "..\\..\\Data\\Shaders\\C2E2f_passthru.cg";
+        private string vertexProgramFileName = "Data\\Shaders\\C2E1v_green.cg";
+        private string fragmentProgramFileName = "Data\\Shaders\\C2E2f_passthru.cg";
         private string cgVertexEntryFuncName = "C2E1v_green";
         private string cgFragmentEntryFuncName = "C2E2f_passthru";
 
@@ -51,19 +52,19 @@ namespace OpenCg.Examples.OpenTK.Basic
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            if (Keyboard[Key.Escape])
+            if (IsKeyDown(Keys.Escape))
             {
-                Exit();
+                Close();
             }
         }
 
-        protected override void OnResize(EventArgs e)
+        protected override void OnResize(ResizeEventArgs e)
         {
             Reshape();
             Display();
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected override void OnLoad()
         {
             context = Cg.CreateContext();
 
@@ -112,13 +113,12 @@ namespace OpenCg.Examples.OpenTK.Basic
             CgGL.LoadProgram(cgFragmentProgram);
         }
 
-        protected override void OnUnload(EventArgs e)
+        protected override void OnUnload()
         {
-            base.OnUnload(e);
+            base.OnUnload();
             Cg.DestroyProgram(cgFragmentProgram);
             Cg.DestroyProgram(cgVertexProgram);
             Cg.DestroyContext(context);
-            Environment.Exit(0);
         }
 
         #region Methods
@@ -128,8 +128,8 @@ namespace OpenCg.Examples.OpenTK.Basic
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
 
-            GL.Viewport(0, 0, Width, Height);
-            GL.Ortho(0, 0, Width, Height, -1, +1);
+            GL.Viewport(0, 0, ClientSize.X, ClientSize.Y);
+            GL.Ortho(0, 0, ClientSize.X, ClientSize.Y, -1, +1);
 
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();

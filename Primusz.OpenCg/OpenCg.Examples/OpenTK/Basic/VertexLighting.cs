@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using OpenCg.Graphics;
 using OpenCg.Graphics.OpenGL;
-using OpenTK;
+using OpenTK.Windowing.Desktop;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace OpenCg.Examples.OpenTK.Basic
 {
@@ -26,7 +27,7 @@ namespace OpenCg.Examples.OpenTK.Basic
     {
         #region Members
 
-        private string vertexProgramFileName = "..\\..\\Data\\Shaders\\C5E1v_basicLight.cg";
+        private string vertexProgramFileName = "Data\\Shaders\\C5E1v_basicLight.cg";
         private string cgVertexEntryFuncName = "C5E1v_basicLight";
 
         private CgProfile cgVertexProfile = CgProfile.Unknown;
@@ -53,10 +54,10 @@ namespace OpenCg.Examples.OpenTK.Basic
 
         #endregion
 
-        protected override void OnResize(EventArgs e)
+        protected override void OnResize(ResizeEventArgs e)
         {
-            Reshape(Width, Height);
-            GL.Viewport(0, 0, Width, Height);
+            Reshape(e.Width, e.Height);
+            GL.Viewport(0, 0, e.Width, e.Height);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -64,7 +65,7 @@ namespace OpenCg.Examples.OpenTK.Basic
             Display();
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected override void OnLoad()
         {
             GL.ClearColor(0.1f, 0.3f, 0.6f, 0.0f); // Blue background
             GL.Enable(EnableCap.DepthTest);
@@ -135,13 +136,12 @@ namespace OpenCg.Examples.OpenTK.Basic
             CgGL.LoadProgram(cgFragmentProgram);
         }
 
-        protected override void OnUnload(EventArgs e)
+        protected override void OnUnload()
         {
-            base.OnUnload(e);
+            base.OnUnload();
             Cg.DestroyProgram(cgVertexProgram);
             Cg.DestroyProgram(cgFragmentProgram);
             Cg.DestroyContext(context);
-            Environment.Exit(0);
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -155,9 +155,9 @@ namespace OpenCg.Examples.OpenTK.Basic
                 lightAngle -= 2 * Pi;
             }
 
-            if (Keyboard[Key.Escape])
+            if (IsKeyDown(Keys.Escape))
             {
-                Exit();
+                Close();
             }
         }
 

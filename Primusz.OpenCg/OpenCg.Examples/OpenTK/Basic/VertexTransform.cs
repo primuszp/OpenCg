@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using OpenCg.Graphics;
 using OpenCg.Graphics.OpenGL;
-using OpenTK;
+using OpenTK.Windowing.Desktop;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 #region Original Credits / License
 
@@ -25,7 +26,7 @@ namespace OpenCg.Examples.OpenTK.Basic
     {
         #region Members
 
-        private const string vertexProgramFileName = "..\\..\\Data\\Shaders\\C4E1v_transform.cg";
+        private const string vertexProgramFileName = "Data\\Shaders\\C4E1v_transform.cg";
         private const string cgVertexEntryFuncName = "C4E1v_transform";
 
         private CgProfile cgVertexProfile, cgFragmentProfile;
@@ -60,19 +61,19 @@ namespace OpenCg.Examples.OpenTK.Basic
                 eyeAngle -= (2 * Pi);
             }
 
-            if (Keyboard[Key.Escape])
+            if (IsKeyDown(Keys.Escape))
             {
-                Exit();
+                Close();
             }
         }
 
-        protected override void OnResize(EventArgs e)
+        protected override void OnResize(ResizeEventArgs e)
         {
             Reshape();
             Display();
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected override void OnLoad()
         {
             context = Cg.CreateContext();
 
@@ -125,24 +126,23 @@ namespace OpenCg.Examples.OpenTK.Basic
             fragmentParamColor = Cg.GetNamedParameter(cgFragmentProgram, "c");
         }
 
-        protected override void OnUnload(EventArgs e)
+        protected override void OnUnload()
         {
-            base.OnUnload(e);
+            base.OnUnload();
             Cg.DestroyProgram(cgVertexProgram);
             Cg.DestroyProgram(cgFragmentProgram);
             Cg.DestroyContext(context);
-            Environment.Exit(0);
         }
 
         private void Reshape()
         {
-            GL.Viewport(0, 0, Width, Height);
+            GL.Viewport(0, 0, ClientSize.X, ClientSize.Y);
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
             GL.Ortho(-1.0, 1.0, -1.0, 1.0, 0.0, 4.0);
 
-            double aspectRatio = (float)Width / Height;
+            double aspectRatio = (float)ClientSize.X / ClientSize.Y;
             const double fieldOfView = 40.0;
 
             /* Build projection matrix once. */

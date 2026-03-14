@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using OpenCg.Graphics;
 using OpenCg.Graphics.OpenGL;
-using OpenTK;
+using OpenTK.Windowing.Desktop;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 #region Original Credits / License
 
@@ -25,8 +26,8 @@ namespace OpenCg.Examples.OpenTK.Basic
     {
         #region Members
 
-        private const string VertexProgramFileName = "..\\..\\Data\\Shaders\\C3E4v_twist.cg";
-        private const string FragmentProgramFileName = "..\\..\\Data\\Shaders\\C2E2f_passthru.cg";
+        private const string VertexProgramFileName = "Data\\Shaders\\C3E4v_twist.cg";
+        private const string FragmentProgramFileName = "Data\\Shaders\\C2E2f_passthru.cg";
         private const string CgVertexEntryFuncName = "C3E4v_twist";
         private const string CgFragmentEntryFuncName = "C2E2f_passthru";
 
@@ -58,19 +59,26 @@ namespace OpenCg.Examples.OpenTK.Basic
         {
             Twist();
 
-            if (Keyboard[Key.Escape])
+            if (IsKeyDown(Keys.W))
             {
-                Exit();
+                wireframe = !wireframe;
+
+                GL.PolygonMode(MaterialFace.FrontAndBack, wireframe ? PolygonMode.Line : PolygonMode.Fill);
+            }
+
+            if (IsKeyDown(Keys.Escape))
+            {
+                Close();
             }
         }
 
-        protected override void OnResize(EventArgs e)
+        protected override void OnResize(ResizeEventArgs e)
         {
             Reshape();
             Display();
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected override void OnLoad()
         {
             context = Cg.CreateContext();
 
@@ -121,24 +129,12 @@ namespace OpenCg.Examples.OpenTK.Basic
             CgGL.LoadProgram(cgFragmentProgram);
         }
 
-        protected override void OnUnload(EventArgs e)
+        protected override void OnUnload()
         {
-            base.OnUnload(e);
+            base.OnUnload();
             Cg.DestroyProgram(cgFragmentProgram);
             Cg.DestroyProgram(cgVertexProgram);
             Cg.DestroyContext(context);
-            Environment.Exit(0);
-        }
-
-        protected override void OnKeyPress(KeyPressEventArgs e)
-        {
-            base.OnKeyPress(e);
-            if (e.KeyChar == 'w' || e.KeyChar == 'W')
-            {
-                wireframe = !wireframe;
-
-                GL.PolygonMode(MaterialFace.FrontAndBack, wireframe ? PolygonMode.Line : PolygonMode.Fill);
-            }
         }
 
         private void Reshape()
@@ -146,8 +142,8 @@ namespace OpenCg.Examples.OpenTK.Basic
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
 
-            GL.Viewport(0, 0, Width, Height);
-            GL.Ortho(0, 0, Width, Height, -1, +1);
+            GL.Viewport(0, 0, ClientSize.X, ClientSize.Y);
+            GL.Ortho(0, 0, ClientSize.X, ClientSize.Y, -1, +1);
 
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();

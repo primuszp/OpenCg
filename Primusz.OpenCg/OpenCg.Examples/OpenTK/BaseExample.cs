@@ -4,7 +4,14 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Drawing;
-using OpenTK;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.Common;
+using OpenTKImage = OpenTK.Windowing.Common.Input.Image;
+using OpenTK.Windowing.Common.Input;
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using OpenCg.Graphics;
 
 namespace OpenCg.Examples.OpenTK
@@ -21,10 +28,32 @@ namespace OpenCg.Examples.OpenTK
         #endregion
 
         protected BaseExample(string title, int width, int height)
-            : base(width, height)
+            : base(GameWindowSettings.Default, new NativeWindowSettings()
+            {
+                ClientSize = new Vector2i(width, height),
+                Title = title,
+                Profile = ContextProfile.Compatability,
+                APIVersion = new Version(3, 2)
+            })
         {
-            Title = title;
-            Icon = new Icon(GetEmbeddedResourceStream("Resources/cg.ico"));
+            const string iconPath = @"D:\Personal\OneDrive\Programming\Primusz\OpenCg Project\OpenCg\Logos\cg.ico";
+            if (File.Exists(iconPath))
+            {
+                using var sysBitmap = new System.Drawing.Icon(iconPath).ToBitmap();
+                var bitmapData = sysBitmap.LockBits(
+                    new Rectangle(0, 0, sysBitmap.Width, sysBitmap.Height),
+                    ImageLockMode.ReadOnly,
+                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                var pixels = new byte[sysBitmap.Width * sysBitmap.Height * 4];
+                Marshal.Copy(bitmapData.Scan0, pixels, 0, pixels.Length);
+                sysBitmap.UnlockBits(bitmapData);
+                // BGRA → RGBA
+                for (int i = 0; i < pixels.Length; i += 4)
+                {
+                    (pixels[i], pixels[i + 2]) = (pixels[i + 2], pixels[i]);
+                }
+                Icon = new WindowIcon(new OpenTKImage(sysBitmap.Width, sysBitmap.Height, pixels));
+            }
         }
 
         private void CgErrorDelegate()
@@ -49,9 +78,9 @@ namespace OpenCg.Examples.OpenTK
 
         public void Start()
         {
-            // Callback Delegates
             errorDelegate += CgErrorDelegate;
-            Run(30.0, 0.0);
+            Run();
+            Dispose();
         }
 
         #endregion
