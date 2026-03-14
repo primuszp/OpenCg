@@ -76,7 +76,7 @@ namespace OpenCg.Graphics.OpenGL
         private static extern CgProfile cgGLGetLatestProfile(CgGLEnum profile_type);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern int cgGLGetManageTextureParameters(CgContext context);
+        private static extern CgBool cgGLGetManageTextureParameters(CgContext context);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private unsafe static extern void cgGLGetMatrixParameterArraydc(CgParameter param, long offset, long nelements, [Out]double* v);

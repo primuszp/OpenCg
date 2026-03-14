@@ -974,7 +974,7 @@ namespace OpenCg.Graphics
         /// <param name="effect">The effect from which the name will be retrieved.</param>
         /// <returns>Returns the name from the specified effect. Returns NULL if the effect doesn't have a valid name or an error occurs.</returns>
         public static string GetEffectName(CgEffect effect)
-        { return cgGetEffectName(effect); }
+        { return Marshal.PtrToStringAnsi(cgGetEffectName(effect)); }
 
         /// <summary>
         /// <para>cgGetEffectParameterBuffer returns the CgBuffer object set by cgSetEffectParameterBuffer.</para>
@@ -1035,8 +1035,8 @@ namespace OpenCg.Graphics
         /// <para>VERSION: cgGetErrorCallback was introduced in Cg 1.1.</para>
         /// </summary>
         /// <returns>Returns the currently set error callback function. Returns NULL if no callback function has been set.</returns>
-        public static void GetErrorCallback()
-        { cgGetErrorCallback(); }
+        public static ErrorCallbackFuncDelegate GetErrorCallback()
+        { return cgGetErrorCallback(); }
 
         /// <summary>
         /// <para>cgGetErrorHandler returns the current error handler callback function and application provided data pointer.</para>
@@ -1044,8 +1044,8 @@ namespace OpenCg.Graphics
         /// </summary>
         /// <param name="appdataptr">A pointer for an application provided data pointer.</param>
         /// <returns>Returns the current error handler callback function. Returns NULL if no callback function is set. If appdataptr is not NULL then the current appdata pointer will be copied into the location pointed to by appdataptr.</returns>
-        public static void GetErrorHandler(out IntPtr appdataptr)
-        { cgGetErrorHandler(out appdataptr); }
+        public static ErrorHandlerFuncDelegate GetErrorHandler(out IntPtr appdataptr)
+        { return cgGetErrorHandler(out appdataptr); }
 
         /// <summary>
         /// <para>cgGetErrorString returns a human readable error string for the given error condition.</para>
@@ -2125,7 +2125,7 @@ namespace OpenCg.Graphics
         /// <param name="param">The program param.</param>
         /// <returns>Returns the resource name of param. Returns NULL if an error occurs.</returns>
         public static string GetParameterResourceName(CgParameter param)
-        { return cgGetParameterResourceName(param); }
+        { return Marshal.PtrToStringAnsi(cgGetParameterResourceName(param)); }
 
         /// <summary>
         /// <para>cgGetParameterResourceSize returns the size in bytes of the resource corresponding to a param if the param belongs to a Cg buffer resource.</para>
@@ -2322,7 +2322,7 @@ namespace OpenCg.Graphics
         /// <param name="pass">The pass.</param>
         /// <returns>Returns the NULL-terminated name string for the pass. Returns NULL if pass is invalid.</returns>
         public static string GetPassName(CgPass pass)
-        { return cgGetPassName(pass); }
+        { return Marshal.PtrToStringAnsi(cgGetPassName(pass)); }
 
         /// <summary>
         /// <para>cgGetPassProgram allows the application to retrieve the program associated with a specific domain from a pass.</para>
@@ -2372,7 +2372,7 @@ namespace OpenCg.Graphics
         /// <param name="profile">The profile enumerant.</param>
         /// <returns>Returns the profile string of the enumerant profile. Returns NULL if profile is not a valid profile.</returns>
         public static string GetProfileString(CgProfile profile)
-        { return cgGetProfileString(profile); }
+        { return Marshal.PtrToStringAnsi(cgGetProfileString(profile)); }
 
         /// <summary>
         /// <para>cgGetProgramBuffer returns the buffer handle associated with a given buffer index from program.</para>
@@ -2656,7 +2656,7 @@ namespace OpenCg.Graphics
         /// <param name="value">Pointer to integer where the enumerant value will be stored.</param>
         /// <returns>Returns the NULL-terminated enumerant name string associated with state at position index. The enumerant value is returned via the value param. Returns NULL if an error occurs. value will be 0.</returns>
         public static string GetStateEnumerant(CgState state, int index, out int value)
-        { return cgGetStateEnumerant(state, index, out value); }
+        { return Marshal.PtrToStringAnsi(cgGetStateEnumerant(state, index, out value)); }
 
         /// <summary>
         /// <para>cgGetStateEnumerantName returns the enumerant name associated with a given enumerant value from a specified state.</para>
@@ -2667,7 +2667,7 @@ namespace OpenCg.Graphics
         /// <param name="value">The enumerant value for which to retrieve the associated name.</param>
         /// <returns>Returns the NULL-terminated enumerant name string associated with the given enumerant value in state. Returns NULL if an error occurs.</returns>
         public static string GetStateEnumerantName(CgState state, int value)
-        { return cgGetStateEnumerantName(state, value); }
+        { return Marshal.PtrToStringAnsi(cgGetStateEnumerantName(state, value)); }
 
         /// <summary>
         /// <para>cgGetStateEnumerantValue retrieves the enumerant value associated with a given enumerant name from the specified state.</para>
@@ -2700,7 +2700,7 @@ namespace OpenCg.Graphics
         /// <param name="state">The state.</param>
         /// <returns>Returns the NULL-terminated name string for the state. Returns NULL if state is invalid.</returns>
         public static string GetStateName(CgState state)
-        { return cgGetStateName(state); }
+        { return Marshal.PtrToStringAnsi(cgGetStateName(state)); }
 
         /// <summary>
         /// <para>cgGetStateResetCallback returns the callback function used for resetting the state when the given state is encountered in a pass in a technique.</para>
@@ -2764,7 +2764,7 @@ namespace OpenCg.Graphics
         /// <param name="ann">The annotation.</param>
         /// <returns>Returns a pointer to a string contained by ann. Returns NULL if no value is available.</returns>
         public static string GetStringAnnotationValue(CgAnnotation ann)
-        { return cgGetStringAnnotationValue(ann); }
+        { return Marshal.PtrToStringAnsi(cgGetStringAnnotationValue(ann)); }
 
         /// <summary>
         /// <para>cgGetStringAnnotationValues allows the application to retrieve the value(s) of a string typed annotation.</para>
@@ -2856,7 +2856,7 @@ namespace OpenCg.Graphics
         /// <param name="param">The param whose value will be retrieved.</param>
         /// <returns>Returns a pointer to the string contained by a string param. Returns NULL if the param does not contain a valid string value.</returns>
         public static string GetStringParameterValue(CgParameter param)
-        { return cgGetStringParameterValue(param); }
+        { return Marshal.PtrToStringAnsi(cgGetStringParameterValue(param)); }
 
         /// <summary>
         /// <para>cgGetStringStateAssignmentValue allows the application to  retrieve the value(s) of a string typed state assignment.</para>
@@ -2866,7 +2866,7 @@ namespace OpenCg.Graphics
         /// <param name="sa">The state assignment.</param>
         /// <returns>Returns a pointer to a string. Returns NULL if an error occurs.</returns>
         public static string GetStringStateAssignmentValue(CgStateAssignment sa)
-        { return cgGetStringStateAssignmentValue(sa); }
+        { return Marshal.PtrToStringAnsi(cgGetStringStateAssignmentValue(sa)); }
 
         /// <summary>
         /// <para>cgGetSupportedProfile retrieves by index a profile supported by this version of the Cg library.</para>
@@ -2898,7 +2898,7 @@ namespace OpenCg.Graphics
         /// <param name="tech">The technique.</param>
         /// <returns>Returns the NULL-terminated name string for the technique. Returns NULL if tech is invalid.</returns>
         public static string GetTechniqueName(CgTechnique tech)
-        { return cgGetTechniqueName(tech); }
+        { return Marshal.PtrToStringAnsi(cgGetTechniqueName(tech)); }
 
         /// <summary>
         /// <para>cgGetTextureStateAssignmentValue allows the application to  retrieve the value(s) of a state assignment that stores a texture param.</para>

@@ -2178,8 +2178,8 @@ namespace OpenCg.Graphics.OpenGL
         /// </summary>
         /// <param name="param">The texture parameter for which the OpenGL texture object will be retrieved.</param>
         /// <returns>Returns the OpenGL object to which the texture was set. Returns 0 if the parameter has not been set.</returns>
-        public static void GetTextureParameter(CgParameter param)
-        { cgGLGetTextureParameter(param); }
+        public static int GetTextureParameter(CgParameter param)
+        { return cgGLGetTextureParameter(param); }
 
         /// <summary>
         /// Enables (binds) the texture unit associated with the given texture parameter. (Cg v1.1)
@@ -2230,7 +2230,7 @@ namespace OpenCg.Graphics.OpenGL
         /// </summary>
         /// <param name="context">The context from which the automatic texture management setting will be retrieved.</param>
         /// <returns>Returns the manage textures setting for context.</returns>
-        public static int GetManageTextureParameters(CgContext context)
+        public static CgBool GetManageTextureParameters(CgContext context)
         { return cgGLGetManageTextureParameters(context); }
 
         /// <summary>
