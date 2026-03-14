@@ -35,7 +35,7 @@
             // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(12, 217);
+            this.btnRun.Location = new System.Drawing.Point(12, 256);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(260, 33);
             this.btnRun.TabIndex = 0;
@@ -56,10 +56,14 @@
             "[07] Two Texture Accesses",
             "[08] Vertex Transform",
             "[09] Vertex Lighting",
-            "[10] Fragment Lighting"});
+            "[10] Fragment Lighting",
+            "[11] Two Lights with Structs",
+            "[12] Light Attenuation",
+            "[13] Spotlight",
+            "[14] Bulge"});
             this.listBox.Location = new System.Drawing.Point(12, 12);
             this.listBox.Name = "listBox";
-            this.listBox.Size = new System.Drawing.Size(260, 199);
+            this.listBox.Size = new System.Drawing.Size(260, 238);
             this.listBox.TabIndex = 1;
             this.listBox.SelectedIndexChanged += new System.EventHandler(this.ListBoxSelectedIndexChanged);
             // 
@@ -67,7 +71,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(284, 340);
             this.Controls.Add(this.listBox);
             this.Controls.Add(this.btnRun);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;

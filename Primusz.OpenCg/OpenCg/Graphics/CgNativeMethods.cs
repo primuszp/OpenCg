@@ -90,13 +90,13 @@ namespace OpenCg.Graphics
         private static extern CgContext cgCreateContext();
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern CgEffect cgCreateEffect(CgContext context, [In] string code, [In] string[] args);
+        private static extern CgEffect cgCreateEffect(CgContext context, [In] string code, IntPtr args);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgAnnotation cgCreateEffectAnnotation(CgEffect effect, [In]string name, CgType type);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern CgEffect cgCreateEffectFromFile(CgContext context, [In] string filename, [In] string[] args);
+        private static extern CgEffect cgCreateEffectFromFile(CgContext context, [In] string filename, IntPtr args);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgParameter cgCreateEffectParameter(CgEffect effect, [In]string name, CgType type);
@@ -108,10 +108,10 @@ namespace OpenCg.Graphics
         private static extern CgParameter cgCreateEffectParameterMultiDimArray(CgEffect effect, [In]string name, CgType type, int dim, [In]int[] lengths);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern CgObj cgCreateObj(CgContext context, CgEnum program_type, [In] string source, CgProfile profile, [In] string[] args);
+        private static extern CgObj cgCreateObj(CgContext context, CgEnum program_type, [In] string source, CgProfile profile, IntPtr args);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern CgObj cgCreateObjFromFile(CgContext context, CgEnum program_type, [In] string source_file, CgProfile profile, [In] string[] args);
+        private static extern CgObj cgCreateObjFromFile(CgContext context, CgEnum program_type, [In] string source_file, CgProfile profile, IntPtr args);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgParameter cgCreateParameter(CgContext context, CgType type);
@@ -132,16 +132,16 @@ namespace OpenCg.Graphics
         private static extern CgAnnotation cgCreatePassAnnotation(CgPass pass, [In]string name, CgType type);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern CgProgram cgCreateProgram(CgContext context, CgEnum program_type, [In] string program, CgProfile profile, [In] string entry, [In]string[] args);
+        private static extern CgProgram cgCreateProgram(CgContext context, CgEnum program_type, [In] string program, CgProfile profile, [In] string entry, IntPtr args);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgAnnotation cgCreateProgramAnnotation(CgProgram program, [In]string name, CgType type);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern IntPtr cgCreateProgramFromEffect(CgEffect effect, CgProfile profile, [In] string entry, [In] string[] args);
+        private static extern IntPtr cgCreateProgramFromEffect(CgEffect effect, CgProfile profile, [In] string entry, IntPtr args);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern CgProgram cgCreateProgramFromFile(CgContext context, CgEnum program_type, [In] string program_file, CgProfile profile, [In] string entry, [In] string[] args);
+        private static extern CgProgram cgCreateProgramFromFile(CgContext context, CgEnum program_type, [In] string program_file, CgProfile profile, [In] string entry, IntPtr args);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgState cgCreateSamplerState(CgContext context, [In] string name, CgType type);
@@ -222,10 +222,10 @@ namespace OpenCg.Graphics
         private static extern IntPtr cgGetBoolAnnotationValues(CgAnnotation annotation, out int nvalues);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern CgBool[] cgGetBoolStateAssignmentValues(CgStateAssignment stateassignment, int[] nVals);
+        private static extern IntPtr cgGetBoolStateAssignmentValues(CgStateAssignment stateassignment, [In, Out] int[] nVals);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern int[] cgGetBooleanAnnotationValues(CgAnnotation annotation, out int nvalues);
+        private static extern IntPtr cgGetBooleanAnnotationValues(CgAnnotation annotation, out int nvalues);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern int cgGetBufferSize(CgBuffer buffer);
@@ -351,16 +351,16 @@ namespace OpenCg.Graphics
         private static extern CgAnnotation cgGetFirstTechniqueAnnotation(CgTechnique technique);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern float[] cgGetFloatAnnotationValues(CgAnnotation annotation, out int nvalues);
+        private static extern IntPtr cgGetFloatAnnotationValues(CgAnnotation annotation, out int nvalues);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern float[] cgGetFloatStateAssignmentValues(CgStateAssignment stateassignment, int[] nvalues);
+        private static extern IntPtr cgGetFloatStateAssignmentValues(CgStateAssignment stateassignment, [In, Out] int[] nvalues);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern int[] cgGetIntAnnotationValues(CgAnnotation annotation, out int nvalues);
+        private static extern IntPtr cgGetIntAnnotationValues(CgAnnotation annotation, out int nvalues);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern int[] cgGetIntStateAssignmentValues(CgStateAssignment stateassignment, int[] nvalues);
+        private static extern IntPtr cgGetIntStateAssignmentValues(CgStateAssignment stateassignment, [In, Out] int[] nvalues);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr cgGetLastErrorString(out CgError error);
@@ -618,7 +618,7 @@ namespace OpenCg.Graphics
         private unsafe static extern double* cgGetParameterValues(CgParameter param, CgEnum value_type, int* nvalues);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern double[] cgGetParameterValues(CgParameter param, CgEnum value_type, [In] int[] nvalues);
+        private static extern IntPtr cgGetParameterValues(CgParameter param, CgEnum value_type, [In, Out] int[] nvalues);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgEnum cgGetParameterVariability(CgParameter param);

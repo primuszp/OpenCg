@@ -41,6 +41,7 @@ namespace OpenCg.Examples.OpenTK.Basic
         private readonly float[] globalAmbient = { 0.1f, 0.1f, 0.1f }; /* Dim */
         private readonly float[] lightColor = { 0.95f, 0.95f, 0.95f }; /* White */
         private readonly float[] projectionMatrix = new float[16];
+        private const double LightAngularSpeed = 0.48f; // Matches the old 0.008/frame speed at ~60 FPS.
 
         private double lightAngle = -0.4f; // Angle light rotates around scene.
 
@@ -115,7 +116,7 @@ namespace OpenCg.Examples.OpenTK.Basic
 
             cgFragmentProfile = CgGL.GetLatestProfile(CgGLEnum.Fragment);
 
-            string[] fArgs = CgGL.GetOptimalOptions(cgVertexProfile);
+            string[] fArgs = CgGL.GetOptimalOptions(cgFragmentProfile);
 
             if (cgFragmentProfile != CgProfile.Unknown)
             {
@@ -148,7 +149,7 @@ namespace OpenCg.Examples.OpenTK.Basic
         {
             /* Add a small angle (in radians). */
 
-            lightAngle += 0.008f;
+            lightAngle += LightAngularSpeed * e.Time;
 
             if (lightAngle > 2 * Pi)
             {

@@ -10,50 +10,49 @@ namespace OpenCg.Examples.OpenTK.Basic
 {
     #region Original Credits / License
 
-    // OpenGL-based per-vertex lighting example
-    // using Cg program from Chapter 5 of "The Cg Tutorial" (Addison-Wesley, ISBN 0321194969).
+    // OpenGL-based lighting example with structs using Cg program
+    // from Chapter 5 of "The Cg Tutorial" (Addison-Wesley, ISBN 0321194969).
     // Requires the OpenGL Utility Toolkit (GLUT) and Cg runtime (version 1.5 or higher).
 
     #endregion
 
     #region Porting Credits
 
-    // Ported from C to C# by Tobias Bohnen for the CgNet v1.0 Copyright (c) 2010.
-    // Modified it by Péter Primusz for the OpenCg v1.0.1 Copyright (c) 2015.
+    // Ported from C to C# by [Your Name] for the OpenCg v1.0.1 Copyright (c) 2023.
 
     #endregion Porting Credits
 
-    class FragmentLighting : BaseExample
+    class TwoLightsWithStructs : BaseExample
     {
         #region Members
 
-        private string vertexProgramFileName = "Data\\Shaders\\C5E2v_fragmentLighting.cg";
-        private string cgVertexEntryFuncName = "C5E2v_fragmentLighting";
-
-        private string fragmentProgramFileName = "Data\\Shaders\\C5E3f_basicLight.cg";
-        private string cgFragmentEntryFuncName = "C5E3f_basicLight";
+        private string vertexProgramFileName = "Data\\Shaders\\C5E4v_twoLights.cg";
+        private string cgVertexEntryFuncName = "C5E4v_twoLights";
 
         private CgProfile cgVertexProfile = CgProfile.Unknown;
         private CgProfile cgFragmentProfile = CgProfile.Unknown;
 
         private CgProgram cgVertexProgram, cgFragmentProgram;
 
-        private CgParameter cgParamModelViewProj, cgParamGlobalAmbient, cgParamLightColor,
-            cgParamLightPosition, cgParamEyePosition, cgParamKe, cgParamKa, cgParamKd, cgParamKs, cgParamShininess;
+        private CgParameter cgParamModelViewProj, cgParamGlobalAmbient, cgParamEyePosition,
+            cgParamLights0Position, cgParamLights0Color, cgParamLights1Position, cgParamLights1Color,
+            cgParamMaterialKe, cgParamMaterialKa, cgParamMaterialKd, cgParamMaterialKs, cgParamMaterialShininess;
 
         private readonly float[] globalAmbient = { 0.1f, 0.1f, 0.1f }; /* Dim */
-        private readonly float[] lightColor = { 0.95f, 0.95f, 0.95f }; /* White */
+        private readonly float[] light0Color = { 0.95f, 0.95f, 0.95f }; /* White */
+        private readonly float[] light1Color = { 0.95f, 0.0f, 0.0f }; /* Red */
         private readonly float[] projectionMatrix = new float[16];
         private const double LightAngularSpeed = 0.48f; // Matches the old 0.008/frame speed at ~60 FPS.
 
         private double lightAngle = -0.4f; // Angle light rotates around scene.
+        private bool animating = true;
 
         #endregion
 
         #region Constructors
 
-        public FragmentLighting()
-            : base("Cg Tutorial 09: Fragment Lighting", 400, 400)
+        public TwoLightsWithStructs()
+            : base("Cg Tutorial 11: Two Lights with Structs", 400, 400)
         { }
 
         #endregion
@@ -102,6 +101,23 @@ namespace OpenCg.Examples.OpenTK.Basic
             CgGL.LoadProgram(cgVertexProgram);
 
             cgParamModelViewProj = Cg.GetNamedParameter(cgVertexProgram, "modelViewProj");
+            cgParamGlobalAmbient = Cg.GetNamedParameter(cgVertexProgram, "globalAmbient");
+            cgParamEyePosition = Cg.GetNamedParameter(cgVertexProgram, "eyePosition");
+            cgParamLights0Position = Cg.GetNamedParameter(cgVertexProgram, "lights[0].position");
+            cgParamLights0Color = Cg.GetNamedParameter(cgVertexProgram, "lights[0].color");
+            cgParamLights1Position = Cg.GetNamedParameter(cgVertexProgram, "lights[1].position");
+            cgParamLights1Color = Cg.GetNamedParameter(cgVertexProgram, "lights[1].color");
+            cgParamMaterialKe = Cg.GetNamedParameter(cgVertexProgram, "material.Ke");
+            cgParamMaterialKa = Cg.GetNamedParameter(cgVertexProgram, "material.Ka");
+            cgParamMaterialKd = Cg.GetNamedParameter(cgVertexProgram, "material.Kd");
+            cgParamMaterialKs = Cg.GetNamedParameter(cgVertexProgram, "material.Ks");
+            cgParamMaterialShininess = Cg.GetNamedParameter(cgVertexProgram, "material.shininess");
+
+            /* Set light source color parameters once. */
+
+            Cg.SetParameter3fv(cgParamGlobalAmbient, globalAmbient);
+            Cg.SetParameter3fv(cgParamLights0Color, light0Color);
+            Cg.SetParameter3fv(cgParamLights1Color, light1Color);
 
             cgFragmentProfile = CgGL.GetLatestProfile(CgGLEnum.Fragment);
 
@@ -115,30 +131,15 @@ namespace OpenCg.Examples.OpenTK.Basic
                 }
             }
 
-            cgFragmentProgram = Cg.CreateProgramFromFile(
+            cgFragmentProgram = Cg.CreateProgram(
              context,                   // Cg runtime context */
              CgEnum.Source,             // Program in human-readable form */
-             fragmentProgramFileName,   // Name of file containing program
-             cgFragmentProfile,         // Profile: OpenGL ARB vertex program */
-             cgFragmentEntryFuncName,   // Entry function name */
+             "float4 main(float4 c : COLOR) : COLOR { return c; }",
+             cgFragmentProfile,         // Profile: OpenGL ARB fragment program */
+             "main",                    // Entry function name */
              fArgs);                    // Extra compiler options */
 
             CgGL.LoadProgram(cgFragmentProgram);
-
-            cgParamGlobalAmbient = Cg.GetNamedParameter(cgFragmentProgram, "globalAmbient");
-            cgParamLightColor = Cg.GetNamedParameter(cgFragmentProgram, "lightColor");
-            cgParamLightPosition = Cg.GetNamedParameter(cgFragmentProgram, "lightPosition");
-            cgParamEyePosition = Cg.GetNamedParameter(cgFragmentProgram, "eyePosition");
-            cgParamKe = Cg.GetNamedParameter(cgFragmentProgram, "Ke");
-            cgParamKa = Cg.GetNamedParameter(cgFragmentProgram, "Ka");
-            cgParamKd = Cg.GetNamedParameter(cgFragmentProgram, "Kd");
-            cgParamKs = Cg.GetNamedParameter(cgFragmentProgram, "Ks");
-            cgParamShininess = Cg.GetNamedParameter(cgFragmentProgram, "shininess");
-
-            /* Set light source color parameters once. */
-
-            Cg.SetParameter3fv(cgParamGlobalAmbient, globalAmbient);
-            Cg.SetParameter3fv(cgParamLightColor, lightColor);
         }
 
         protected override void OnUnload()
@@ -151,19 +152,32 @@ namespace OpenCg.Examples.OpenTK.Basic
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            /* Add a small angle (in radians). */
-
-            lightAngle += LightAngularSpeed * e.Time;
-
-            if (lightAngle > 2 * Pi)
+            if (animating)
             {
-                lightAngle -= 2 * Pi;
+                /* Add a small angle (in radians). */
+
+                lightAngle += LightAngularSpeed * e.Time;
+
+                if (lightAngle > 2 * Pi)
+                {
+                    lightAngle -= 2 * Pi;
+                }
             }
 
             if (IsKeyDown(Keys.Escape))
             {
                 Close();
             }
+        }
+
+        protected override void OnKeyDown(KeyboardKeyEventArgs e)
+        {
+            if (e.Key == Keys.Space)
+            {
+                animating = !animating;
+            }
+
+            base.OnKeyDown(e);
         }
 
         #region Private Methods
@@ -174,22 +188,26 @@ namespace OpenCg.Examples.OpenTK.Basic
 
             /* World-space positions for light and eye. */
             float[] eyePosition = { 0, 0, 13, 1 };
-            float[] lightPosition = {
+            float[] light0Position = {
                                         5 * (float)Math.Sin(lightAngle),
                                         1.5f,
                                         5 * (float)Math.Cos(lightAngle), 1
+                                    };
+            float[] light1Position = {
+                                        5 * (float)Math.Sin(lightAngle + 1.57f),
+                                        1.5f,
+                                        5 * (float)Math.Cos(lightAngle + 1.57f), 1
                                     };
 
             float[] translateMatrix = new float[16], rotateMatrix = new float[16], modelMatrix = new float[16], invModelMatrix = new float[16],
                     viewMatrix = new float[16], modelViewMatrix = new float[16], modelViewProjMatrix = new float[16];
 
-            float[] objSpaceEyePosition = new float[4], objSpaceLightPosition = new float[4];
+            float[] objSpaceEyePosition = new float[4], objSpaceLight0Position = new float[4], objSpaceLight1Position = new float[4];
 
             BuildLookAtMatrix(eyePosition[0], eyePosition[1], eyePosition[2],
                               0, 0, 0,
                               0, 1, 0,
                               viewMatrix);
-
 
             CgGL.BindProgram(cgVertexProgram);
             CgGL.EnableProfile(cgVertexProfile);
@@ -210,8 +228,10 @@ namespace OpenCg.Examples.OpenTK.Basic
             /* Transform world-space eye and light positions to sphere's object-space. */
             Transform(objSpaceEyePosition, invModelMatrix, eyePosition);
             Cg.SetParameter3fv(cgParamEyePosition, objSpaceEyePosition);
-            Transform(objSpaceLightPosition, invModelMatrix, lightPosition);
-            Cg.SetParameter3fv(cgParamLightPosition, objSpaceLightPosition);
+            Transform(objSpaceLight0Position, invModelMatrix, light0Position);
+            Cg.SetParameter3fv(cgParamLights0Position, objSpaceLight0Position);
+            Transform(objSpaceLight1Position, invModelMatrix, light1Position);
+            Cg.SetParameter3fv(cgParamLights1Position, objSpaceLight1Position);
 
             /* modelViewMatrix = viewMatrix * modelMatrix */
             MultMatrix(modelViewMatrix, viewMatrix, modelMatrix);
@@ -222,7 +242,6 @@ namespace OpenCg.Examples.OpenTK.Basic
             /* Set matrix parameter with row-major matrix. */
             Cg.SetMatrixParameterfr(cgParamModelViewProj, modelViewProjMatrix);
             Cg.UpdateProgramParameters(cgVertexProgram);
-            Cg.UpdateProgramParameters(cgFragmentProgram);
             NativeMethods.glutSolidSphere(2.0, 40, 40);
 
             /*** Render red plastic solid cone ***/
@@ -240,8 +259,10 @@ namespace OpenCg.Examples.OpenTK.Basic
             /* Transform world-space eye and light positions to sphere's object-space. */
             Transform(objSpaceEyePosition, invModelMatrix, eyePosition);
             Cg.SetParameter3fv(cgParamEyePosition, objSpaceEyePosition);
-            Transform(objSpaceLightPosition, invModelMatrix, lightPosition);
-            Cg.SetParameter3fv(cgParamLightPosition, objSpaceLightPosition);
+            Transform(objSpaceLight0Position, invModelMatrix, light0Position);
+            Cg.SetParameter3fv(cgParamLights0Position, objSpaceLight0Position);
+            Transform(objSpaceLight1Position, invModelMatrix, light1Position);
+            Cg.SetParameter3fv(cgParamLights1Position, objSpaceLight1Position);
 
             /* modelViewMatrix = viewMatrix * modelMatrix */
             MultMatrix(modelViewMatrix, viewMatrix, modelMatrix);
@@ -252,28 +273,34 @@ namespace OpenCg.Examples.OpenTK.Basic
             /* Set matrix parameter with row-major matrix. */
             Cg.SetMatrixParameterfr(cgParamModelViewProj, modelViewProjMatrix);
             Cg.UpdateProgramParameters(cgVertexProgram);
-            Cg.UpdateProgramParameters(cgFragmentProgram);
             NativeMethods.glutSolidCone(1.5, 3.5, 30, 30);
 
-            /*** Render light as emissive white ball ***/
+            /*** Render lights as emissive colored balls ***/
 
-            /* modelView = translateMatrix */
-            MakeTranslateMatrix(lightPosition[0], lightPosition[1], lightPosition[2], modelMatrix);
-
-            /* modelViewMatrix = viewMatrix * modelMatrix */
+            /* First light */
+            MakeTranslateMatrix(light0Position[0], light0Position[1], light0Position[2], modelMatrix);
             MultMatrix(modelViewMatrix, viewMatrix, modelMatrix);
-
-            /* modelViewProj = projectionMatrix * modelViewMatrix */
             MultMatrix(modelViewProjMatrix, projectionMatrix, modelViewMatrix);
 
-            SetEmissiveLightColorOnly();
-            /* Avoid degenerate lightPosition. */
-            Cg.SetParameter3f(cgParamLightPosition, 0f, 0f, 0f);
+            SetEmissiveLight0ColorOnly();
+            Cg.SetParameter3f(cgParamLights0Position, 0f, 0f, 0f);
+            Cg.SetParameter3f(cgParamLights1Position, 0f, 0f, 0f);
 
-            /* Set matrix parameter with row-major matrix. */
             Cg.SetMatrixParameterfr(cgParamModelViewProj, modelViewProjMatrix);
             Cg.UpdateProgramParameters(cgVertexProgram);
-            Cg.UpdateProgramParameters(cgFragmentProgram);
+            NativeMethods.glutSolidSphere(0.2, 12, 12);
+
+            /* Second light */
+            MakeTranslateMatrix(light1Position[0], light1Position[1], light1Position[2], modelMatrix);
+            MultMatrix(modelViewMatrix, viewMatrix, modelMatrix);
+            MultMatrix(modelViewProjMatrix, projectionMatrix, modelViewMatrix);
+
+            SetEmissiveLight1ColorOnly();
+            Cg.SetParameter3f(cgParamLights0Position, 0f, 0f, 0f);
+            Cg.SetParameter3f(cgParamLights1Position, 0f, 0f, 0f);
+
+            Cg.SetMatrixParameterfr(cgParamModelViewProj, modelViewProjMatrix);
+            Cg.UpdateProgramParameters(cgVertexProgram);
             NativeMethods.glutSolidSphere(0.2, 12, 12);
 
             CgGL.DisableProfile(cgVertexProfile);
@@ -289,8 +316,8 @@ namespace OpenCg.Examples.OpenTK.Basic
 
             /* Build projection matrix once. */
             BuildPerspectiveMatrix(fieldOfView, aspectRatio,
-                1.0, 20.0, /* Znear and Zfar */
-                projectionMatrix);
+                                   1.0, 20.0, /* Znear and Zfar */
+                                   projectionMatrix);
         }
 
         private void SetBrassMaterial()
@@ -302,22 +329,33 @@ namespace OpenCg.Examples.OpenTK.Basic
 
             float brassShininess = 27.8f;
 
-            Cg.SetParameter3fv(cgParamKe, brassEmissive);
-            Cg.SetParameter3fv(cgParamKa, brassAmbient);
-            Cg.SetParameter3fv(cgParamKd, brassDiffuse);
-            Cg.SetParameter3fv(cgParamKs, brassSpecular);
-            Cg.SetParameter1f(cgParamShininess, brassShininess);
+            Cg.SetParameter3fv(cgParamMaterialKe, brassEmissive);
+            Cg.SetParameter3fv(cgParamMaterialKa, brassAmbient);
+            Cg.SetParameter3fv(cgParamMaterialKd, brassDiffuse);
+            Cg.SetParameter3fv(cgParamMaterialKs, brassSpecular);
+            Cg.SetParameter1f(cgParamMaterialShininess, brassShininess);
         }
 
-        private void SetEmissiveLightColorOnly()
+        private void SetEmissiveLight0ColorOnly()
         {
             float[] zero = { 0.0f, 0.0f, 0.0f };
 
-            Cg.SetParameter3fv(cgParamKe, lightColor);
-            Cg.SetParameter3fv(cgParamKa, zero);
-            Cg.SetParameter3fv(cgParamKd, zero);
-            Cg.SetParameter3fv(cgParamKs, zero);
-            Cg.SetParameter1f(cgParamShininess, 0);
+            Cg.SetParameter3fv(cgParamMaterialKe, light0Color);
+            Cg.SetParameter3fv(cgParamMaterialKa, zero);
+            Cg.SetParameter3fv(cgParamMaterialKd, zero);
+            Cg.SetParameter3fv(cgParamMaterialKs, zero);
+            Cg.SetParameter1f(cgParamMaterialShininess, 0);
+        }
+
+        private void SetEmissiveLight1ColorOnly()
+        {
+            float[] zero = { 0.0f, 0.0f, 0.0f };
+
+            Cg.SetParameter3fv(cgParamMaterialKe, light1Color);
+            Cg.SetParameter3fv(cgParamMaterialKa, zero);
+            Cg.SetParameter3fv(cgParamMaterialKd, zero);
+            Cg.SetParameter3fv(cgParamMaterialKs, zero);
+            Cg.SetParameter1f(cgParamMaterialShininess, 0);
         }
 
         private void SetRedPlasticMaterial()
@@ -329,11 +367,11 @@ namespace OpenCg.Examples.OpenTK.Basic
 
             float redPlasticShininess = 32.0f;
 
-            Cg.SetParameter3fv(cgParamKe, redPlasticEmissive);
-            Cg.SetParameter3fv(cgParamKa, redPlasticAmbient);
-            Cg.SetParameter3fv(cgParamKd, redPlasticDiffuse);
-            Cg.SetParameter3fv(cgParamKs, redPlasticSpecular);
-            Cg.SetParameter1f(cgParamShininess, redPlasticShininess);
+            Cg.SetParameter3fv(cgParamMaterialKe, redPlasticEmissive);
+            Cg.SetParameter3fv(cgParamMaterialKa, redPlasticAmbient);
+            Cg.SetParameter3fv(cgParamMaterialKd, redPlasticDiffuse);
+            Cg.SetParameter3fv(cgParamMaterialKs, redPlasticSpecular);
+            Cg.SetParameter1f(cgParamMaterialShininess, redPlasticShininess);
         }
 
         #endregion Private Methods

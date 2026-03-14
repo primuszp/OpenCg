@@ -94,7 +94,7 @@ namespace OpenCg.Examples.OpenTK.Basic
             vertexParamConstantColor = Cg.GetNamedParameter(cgVertexProgram, "constantColor");
 
             cgFragmentProfile = CgGL.GetLatestProfile(CgGLEnum.Fragment);
-            string[] fArgs = CgGL.GetOptimalOptions(cgVertexProfile);
+            string[] fArgs = CgGL.GetOptimalOptions(cgFragmentProfile);
 
             if (cgFragmentProfile != CgProfile.Unknown)
             {

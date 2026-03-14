@@ -704,7 +704,7 @@ namespace OpenCg.Graphics.OpenGL
         /// <param name="values">Destination buffer into which the values will be written.</param>
         public static void GetParameter(CgParameter param, [Out]double[] values)
         {
-            GCHandle handle = GCHandle.Alloc(values);
+            GCHandle handle = GCHandle.Alloc(values, GCHandleType.Pinned);
 
             try
             {
@@ -2325,15 +2325,23 @@ namespace OpenCg.Graphics.OpenGL
         /// <returns>Returns a CgBuffer handle on success. Returns NULL if any error occurs.</returns>
         public static CgBuffer CreateBuffer<T2>(CgContext context, int size, [In, Out] ref T2 data, int bufferUsage) where T2 : struct
         {
-            GCHandle handle = GCHandle.Alloc((T2)data, GCHandleType.Pinned);
+            IntPtr nativeData = IntPtr.Zero;
 
             try
             {
-                return (cgGLCreateBuffer(context, size, handle.AddrOfPinnedObject(), bufferUsage));
+                // Pinning a generic ref struct boxes a copy; marshal through a temporary
+                // unmanaged block so cgGLCreateBuffer sees stable bytes for the upload.
+                nativeData = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(T2)));
+                Marshal.StructureToPtr(data, nativeData, false);
+                return (cgGLCreateBuffer(context, size, nativeData, bufferUsage));
             }
             finally
             {
-                handle.Free();
+                if (nativeData != IntPtr.Zero)
+                {
+                    Marshal.DestroyStructure(nativeData, typeof(T2));
+                    Marshal.FreeHGlobal(nativeData);
+                }
             }
         }
 

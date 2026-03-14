@@ -34,6 +34,10 @@ namespace OpenCg.Examples
                 case 7: example = new VertexTransform(); break;
                 case 8: example = new VertexLighting(); break;
                 case 9: example = new FragmentLighting(); break;
+                case 10: example = new TwoLightsWithStructs(); break;
+                case 11: example = new LightAttenuation(); break;
+                case 12: example = new Spotlight(); break;
+                case 13: example = new Bulge(); break;
             }
 
             example?.Start();

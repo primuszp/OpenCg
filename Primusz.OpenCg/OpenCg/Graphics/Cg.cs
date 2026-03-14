@@ -251,7 +251,9 @@ namespace OpenCg.Graphics
         /// <param name="args">If args is not NULL it is assumed to be an array of NULL-terminated  strings that will be passed directly to the compiler as arguments.  The last value of the array must be a NULL.</param>
         /// <returns>Returns a CGeffect handle on success. Returns NULL if an error occurs.</returns>
         public static CgEffect CreateEffect(CgContext context, [In]string source, [In]string[] args)
-        { return cgCreateEffect(context, source, args); }
+        {
+            return InvokeWithStringArray(args, nativeArgs => cgCreateEffect(context, source, nativeArgs));
+        }
 
         /// <summary>
         /// <para>cgCreateEffectAnnotation adds a new annotation to the effect.</para>
@@ -275,7 +277,9 @@ namespace OpenCg.Graphics
         /// <param name="args">If args is not NULL it is assumed to be an array of NULL-terminated  strings that will be passed directly to the compiler as arguments.  The last value of the array must be a NULL.</param>
         /// <returns>Returns a CGeffect handle on success. Returns NULL if an error occurs.</returns>
         public static CgEffect CreateEffectFromFile(CgContext context, [In]string filename, [In]string[] args)
-        { return cgCreateEffectFromFile(context, filename, args); }
+        {
+            return InvokeWithStringArray(args, nativeArgs => cgCreateEffectFromFile(context, filename, nativeArgs));
+        }
 
         /// <summary>
         /// <para>cgCreateEffectParameter adds a new param to the specified effect.</para>
@@ -329,7 +333,9 @@ namespace OpenCg.Graphics
         /// <param name="args">If args is not NULL it is assumed to be an array of NULL-terminated strings that will be passed directly to the compiler as arguments. The last value of the array must be a NULL.</param>
         /// <returns>Returns a CGobj handle on success. Returns NULL if an error occurs.</returns>
         public static CgObj CreateObj(CgContext context, CgEnum program_type, [In]string source, CgProfile profile, [In]string[] args)
-        { return cgCreateObj(context, program_type, source, profile, args); }
+        {
+            return InvokeWithStringArray(args, nativeArgs => cgCreateObj(context, program_type, source, profile, nativeArgs));
+        }
 
         /// <summary>
         /// <para>cgCreateObjFromFile creates a new CGobj which is a source source object similar to a.</para>
@@ -346,7 +352,9 @@ namespace OpenCg.Graphics
         /// <param name="args">If args is not NULL it is assumed to be an array of NULL-terminated strings that will be passed directly to the compiler as arguments. The last value of the array must be a NULL.</param>
         /// <returns>Returns a CGobj handle on success. Returns NULL if an error occurs.</returns>
         public static CgObj CreateObjFromFile(CgContext context, CgEnum program_type, [In]string source_file, CgProfile profile, [In]string[] args)
-        { return cgCreateObjFromFile(context, program_type, source_file, profile, args); }
+        {
+            return InvokeWithStringArray(args, nativeArgs => cgCreateObjFromFile(context, program_type, source_file, profile, nativeArgs));
+        }
 
         /// <summary>
         /// <para>cgCreateParameter creates context level shared parameters.</para>
@@ -435,7 +443,9 @@ namespace OpenCg.Graphics
         /// <param name="args">If args is not NULL it is assumed to be an array of NULL-terminated strings that will be passed directly to the compiler as arguments. The last value of the array must be a NULL.</param>
         /// <returns>Returns a CgProgram handle on success. Returns NULL if an error occurs.</returns>
         public static CgProgram CreateProgram(CgContext context, CgEnum program_type, [In]string program, CgProfile profile, [In]string entry, string[] args)
-        { return cgCreateProgram(context, program_type, program, profile, entry, args); }
+        {
+            return InvokeWithStringArray(args, nativeArgs => cgCreateProgram(context, program_type, program, profile, entry, nativeArgs));
+        }
 
         /// <summary>
         /// <para>cgCreateProgramAnnotation adds a new annotation to a program.</para>
@@ -460,7 +470,9 @@ namespace OpenCg.Graphics
         /// <param name="args">If args is not NULL it is assumed to be an array of NULL-terminated  strings that will be passed directly to the compiler as arguments.  The last value of the array must be a NULL.</param>
         /// <returns>Returns a CgProgram handle on success. Returns NULL if an error occurs.</returns>
         public static IntPtr CreateProgramFromEffect(CgEffect effect, CgProfile profile, [In]string entry, [In]string[] args)
-        { return cgCreateProgramFromEffect(effect, profile, entry, args); }
+        {
+            return InvokeWithStringArray(args, nativeArgs => cgCreateProgramFromEffect(effect, profile, entry, nativeArgs));
+        }
 
         /// <summary>
         /// <para>cgCreateProgramFromFile  generates a new CgProgram  object and adds it to the specified Cg context.</para>
@@ -475,7 +487,9 @@ namespace OpenCg.Graphics
         /// <param name="args">If args is not NULL it is assumed to be an array of NULL-terminated strings that will be passed directly to the compiler as arguments. The last value of the array must be a NULL.</param>
         /// <returns>Returns a CgProgram handle on success. Returns NULL if an error occurs.</returns>
         public static CgProgram CreateProgramFromFile(CgContext context, CgEnum program_type, [In]string program_file, CgProfile profile, [In]string entry, string[] args)
-        { return cgCreateProgramFromFile(context, program_type, program_file, profile, entry, args); }
+        {
+            return InvokeWithStringArray(args, nativeArgs => cgCreateProgramFromFile(context, program_type, program_file, profile, entry, nativeArgs));
+        }
 
         /// <summary>
         /// <para>cgCreateSamplerState adds a new sampler state definition to the context.</para>
@@ -793,24 +807,7 @@ namespace OpenCg.Graphics
         /// <param name="nvalues">Pointer to integer where the number of returned values will be stored.</param>
         /// <returns>Returns a pointer to an array of CgBool values. The number of values in the array is returned via the nvalues param. Returns NULL if no values are available. nvalues will be 0.</returns>
         public static CgBool[] GetBoolAnnotationValues(CgAnnotation ann, out int nvalues)
-        {
-            var values = cgGetBoolAnnotationValues(ann, out nvalues);
-
-            if (nvalues > 0)
-            {
-                var retValue = new CgBool[nvalues];
-                unsafe
-                {
-                    var ii = (int*)values;
-                    for (int i = 0; i < nvalues; i++)
-                    {
-                        retValue[i] = ii[i] == True;
-                    }
-                }
-                return retValue;
-            }
-            return null;
-        }
+        { return IntPtrToCgBoolArray(cgGetBoolAnnotationValues(ann, out nvalues), nvalues); }
 
         /// <summary>
         /// <para>cgGetBoolStateAssignmentValues allows the application to  retrieve the value(s) of a boolean typed state assignment.</para>
@@ -821,7 +818,14 @@ namespace OpenCg.Graphics
         /// <param name="nvalues">Pointer to integer where the number of returned values will be stored.</param>
         /// <returns>Returns a pointer to an array of CgBool values. The number of values in the array is returned via the nvalues param. Returns NULL if an error occurs or if no values are available. nvalues will be 0 in the latter case.</returns>
         public static CgBool[] GetBoolStateAssignmentValues(CgStateAssignment sa, int[] nvalues)
-        { return cgGetBoolStateAssignmentValues(sa, nvalues); }
+        {
+            if (nvalues == null || nvalues.Length == 0)
+            {
+                throw new ArgumentException("nvalues must contain at least one element.", nameof(nvalues));
+            }
+
+            return IntPtrToCgBoolArray(cgGetBoolStateAssignmentValues(sa, nvalues), nvalues[0]);
+        }
 
         /// <summary>
         /// <para>cgGetBooleanAnnotationValues is deprecated.</para>
@@ -829,7 +833,7 @@ namespace OpenCg.Graphics
         /// </summary>
         [Obsolete("Use GetBoolAnnotationValues instead.")]
         public static int[] GetBooleanAnnotationValues(CgAnnotation ann, out int nvalues)
-        { return cgGetBooleanAnnotationValues(ann, out nvalues); }
+        { return IntPtrToIntArray(cgGetBooleanAnnotationValues(ann, out nvalues), nvalues); }
 
         /// <summary>
         /// <para>cgGetBufferSize returns the size in bytes of buffer.</para>
@@ -1101,8 +1105,8 @@ namespace OpenCg.Graphics
         /// <para>VERSION: cgGetFirstError was introduced in Cg 1.4.</para>
         /// </summary>
         /// <returns>Returns the first error condition that has occured since cgGetFirstError was last called. Returns CG_NO_ERROR if no error has occurred.</returns>
-        public static void GetFirstError()
-        { cgGetFirstError(); }
+        public static CgError GetFirstError()
+        { return cgGetFirstError(); }
 
         /// <summary>
         /// <para>cgGetFirstLeafEffectParameter returns the first leaf param in an effect.</para>
@@ -1283,7 +1287,7 @@ namespace OpenCg.Graphics
         /// <param name="nvalues">Pointer to integer where the number of returned values will be stored.</param>
         /// <returns>Returns a pointer to an array of float values. The number of values in the array is returned via the nvalues param. Returns NULL if no values are available. nvalues will be 0.</returns>
         public static float[] GetFloatAnnotationValues(CgAnnotation ann, out int nvalues)
-        { return cgGetFloatAnnotationValues(ann, out nvalues); }
+        { return IntPtrToFloatArray(cgGetFloatAnnotationValues(ann, out nvalues), nvalues); }
 
         /// <summary>
         /// <para>cgGetFloatStateAssignmentValues allows the application to  retrieve the value(s) of a floating-point typed state assignment.</para>
@@ -1294,7 +1298,14 @@ namespace OpenCg.Graphics
         /// <param name="nvalues">Pointer to integer where the number of returned values will be stored.</param>
         /// <returns>Returns a pointer to an array of float values. The number of values in the array is returned via the nvalues param. Returns NULL if an error occurs or if no values are available. nvalues will be 0 in the latter case.</returns>
         public static float[] GetFloatStateAssignmentValues(CgStateAssignment sa, int[] nvalues)
-        { return cgGetFloatStateAssignmentValues(sa, nvalues); }
+        {
+            if (nvalues == null || nvalues.Length == 0)
+            {
+                throw new ArgumentException("nvalues must contain at least one element.", nameof(nvalues));
+            }
+
+            return IntPtrToFloatArray(cgGetFloatStateAssignmentValues(sa, nvalues), nvalues[0]);
+        }
 
         /// <summary>
         /// <para>cgGetIntAnnotationValues allows the application to  retrieve the value(s) of an int typed annotation.</para>
@@ -1305,7 +1316,7 @@ namespace OpenCg.Graphics
         /// <param name="nvalues">Pointer to integer where the number of returned values will be stored.</param>
         /// <returns>Returns a pointer to an array of int values. The number of values in the array is returned via the nvalues param. Returns NULL if no values are available. nvalues will be 0.</returns>
         public static int[] GetIntAnnotationValues(CgAnnotation ann, out int nvalues)
-        { return cgGetIntAnnotationValues(ann, out nvalues); }
+        { return IntPtrToIntArray(cgGetIntAnnotationValues(ann, out nvalues), nvalues); }
 
         /// <summary>
         /// <para>cgGetIntStateAssignmentValues allows the application to  retrieve the value(s) of an integer typed state assignment.</para>
@@ -1316,7 +1327,14 @@ namespace OpenCg.Graphics
         /// <param name="nvalues">Pointer to integer where the number of values returned will be stored.</param>
         /// <returns>Returns a pointer to an array of int values. The number of values in the array is returned via the nvalues param. Returns NULL if an error occurs or if no values are available. nvalues will be 0 in the latter case.</returns>
         public static int[] GetIntStateAssignmentValues(CgStateAssignment sa, int[] nvalues)
-        { return cgGetIntStateAssignmentValues(sa, nvalues); }
+        {
+            if (nvalues == null || nvalues.Length == 0)
+            {
+                throw new ArgumentException("nvalues must contain at least one element.", nameof(nvalues));
+            }
+
+            return IntPtrToIntArray(cgGetIntStateAssignmentValues(sa, nvalues), nvalues[0]);
+        }
 
         /// <summary>
         /// <para>cgGetLastErrorString returns the current error condition and error condition string.</para>
@@ -2265,7 +2283,14 @@ namespace OpenCg.Graphics
         /// </summary>
         [Obsolete("Use a variation of cgGetParameterValue or cgGetParameterDefaultValue instead.")]
         public static double[] GetParameterValues(CgParameter param, CgEnum value_type, [In]int[] nvalues)
-        { return cgGetParameterValues(param, value_type, nvalues); }
+        {
+            if (nvalues == null || nvalues.Length == 0)
+            {
+                throw new ArgumentException("nvalues must contain at least one element.", nameof(nvalues));
+            }
+
+            return IntPtrToDoubleArray(cgGetParameterValues(param, value_type, nvalues), nvalues[0]);
+        }
 
         /// <summary>
         /// <para>cgGetParameterVariability allows the application to retrieve the variability of a param in a Cg program.</para>
@@ -4013,22 +4038,74 @@ namespace OpenCg.Graphics
 
         #region Internal Static Methods
 
+        // Cg returns library-owned const T* buffers for several query APIs, so copy them
+        // immediately into managed arrays while the native count and pointer are still valid.
+        internal static CgBool[] IntPtrToCgBoolArray(IntPtr values, int count)
+        {
+            var intValues = IntPtrToIntArray(values, count);
+            if (intValues == null)
+            {
+                return null;
+            }
+
+            var retValue = new CgBool[intValues.Length];
+            for (int i = 0; i < intValues.Length; i++)
+            {
+                retValue[i] = intValues[i];
+            }
+
+            return retValue;
+        }
+
         internal static bool[] IntPtrToBoolArray(IntPtr values, int count)
         {
-            if (count > 0)
+            var intValues = IntPtrToIntArray(values, count);
+            if (intValues != null)
             {
-                var retValue = new bool[count];
-                unsafe
+                var retValue = new bool[intValues.Length];
+                for (int i = 0; i < intValues.Length; i++)
                 {
-                    var ii = (int*)values;
-                    for (int i = 0; i < count; i++)
-                    {
-                        retValue[i] = ii[i] == True;
-                    }
+                    retValue[i] = intValues[i] == True;
                 }
                 return retValue;
             }
             return null;
+        }
+
+        internal static double[] IntPtrToDoubleArray(IntPtr values, int count)
+        {
+            if (values == IntPtr.Zero || count <= 0)
+            {
+                return null;
+            }
+
+            var retValue = new double[count];
+            Marshal.Copy(values, retValue, 0, count);
+            return retValue;
+        }
+
+        internal static float[] IntPtrToFloatArray(IntPtr values, int count)
+        {
+            if (values == IntPtr.Zero || count <= 0)
+            {
+                return null;
+            }
+
+            var retValue = new float[count];
+            Marshal.Copy(values, retValue, 0, count);
+            return retValue;
+        }
+
+        internal static int[] IntPtrToIntArray(IntPtr values, int count)
+        {
+            if (values == IntPtr.Zero || count <= 0)
+            {
+                return null;
+            }
+
+            var retValue = new int[count];
+            Marshal.Copy(values, retValue, 0, count);
+            return retValue;
         }
 
         internal static unsafe string[] IntPtrToStringArray(IntPtr ptr)
@@ -4070,6 +4147,74 @@ namespace OpenCg.Graphics
                 }
             }
             return lines.Count == 0 ? null : lines.ToArray();
+        }
+
+        internal static T InvokeWithStringArray<T>(string[] values, Func<IntPtr, T> invoker)
+        {
+            IntPtr nativeArray = IntPtr.Zero;
+            IntPtr[] nativeStrings = null;
+
+            try
+            {
+                nativeArray = StringArrayToNative(values, out nativeStrings);
+                return invoker(nativeArray);
+            }
+            finally
+            {
+                FreeNativeStringArray(nativeArray, nativeStrings);
+            }
+        }
+
+        private static IntPtr StringArrayToNative(string[] values, out IntPtr[] nativeStrings)
+        {
+            nativeStrings = null;
+
+            if (values == null || values.Length == 0)
+            {
+                return IntPtr.Zero;
+            }
+
+            nativeStrings = new IntPtr[values.Length];
+            IntPtr nativeArray = IntPtr.Zero;
+
+            try
+            {
+                nativeArray = Marshal.AllocHGlobal((values.Length + 1) * IntPtr.Size);
+
+                for (int i = 0; i < values.Length; i++)
+                {
+                    nativeStrings[i] = Marshal.StringToHGlobalAnsi(values[i]);
+                    Marshal.WriteIntPtr(nativeArray, i * IntPtr.Size, nativeStrings[i]);
+                }
+
+                Marshal.WriteIntPtr(nativeArray, values.Length * IntPtr.Size, IntPtr.Zero);
+                return nativeArray;
+            }
+            catch
+            {
+                FreeNativeStringArray(nativeArray, nativeStrings);
+                nativeStrings = null;
+                throw;
+            }
+        }
+
+        private static void FreeNativeStringArray(IntPtr nativeArray, IntPtr[] nativeStrings)
+        {
+            if (nativeStrings != null)
+            {
+                for (int i = 0; i < nativeStrings.Length; i++)
+                {
+                    if (nativeStrings[i] != IntPtr.Zero)
+                    {
+                        Marshal.FreeHGlobal(nativeStrings[i]);
+                    }
+                }
+            }
+
+            if (nativeArray != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(nativeArray);
+            }
         }
 
         #endregion Internal Static Methods

@@ -38,6 +38,7 @@ namespace OpenCg.Examples.OpenTK.Basic
         private CgProgram cgFragmentProgram;
 
         private CgParameter vertexParamTwisting;
+        private const float TwistingSpeedScale = 60.0f; // Preserves the old per-frame behavior at ~60 FPS.
 
         private float twisting = 2.9f,       /* Twisting angle in radians. */
                       twistDirection = 0.1f; /* Animation delta for twist. */
@@ -57,7 +58,7 @@ namespace OpenCg.Examples.OpenTK.Basic
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            Twist();
+            Twist((float)e.Time);
 
             if (IsKeyDown(Keys.W))
             {
@@ -108,7 +109,7 @@ namespace OpenCg.Examples.OpenTK.Basic
             vertexParamTwisting = Cg.GetNamedParameter(cgVertexProgram, "twisting");
 
             cgFragmentProfile = CgGL.GetLatestProfile(CgGLEnum.Fragment);
-            string[] fArgs = CgGL.GetOptimalOptions(cgVertexProfile);
+            string[] fArgs = CgGL.GetOptimalOptions(cgFragmentProfile);
 
             if (cgFragmentProfile != CgProfile.Unknown)
             {
@@ -219,7 +220,7 @@ namespace OpenCg.Examples.OpenTK.Basic
             GL.End();
         }
 
-        private void Twist()
+        private void Twist(float deltaTime)
         {
             if (twisting > 3)
             {
@@ -229,7 +230,7 @@ namespace OpenCg.Examples.OpenTK.Basic
             {
                 twistDirection = 0.05f;
             }
-            twisting += twistDirection;
+            twisting += twistDirection * TwistingSpeedScale * deltaTime;
         }
     }
 }

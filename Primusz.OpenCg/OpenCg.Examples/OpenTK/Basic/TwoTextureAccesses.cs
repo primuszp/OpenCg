@@ -117,7 +117,7 @@ namespace OpenCg.Examples.OpenTK.Basic
             vertexParamRightSeparation = Cg.GetNamedParameter(cgVertexProgram, "rightSeparation");
 
             cgFragmentProfile = CgGL.GetLatestProfile(CgGLEnum.Fragment);
-            string[] fArgs = CgGL.GetOptimalOptions(cgVertexProfile);
+            string[] fArgs = CgGL.GetOptimalOptions(cgFragmentProfile);
 
             if (cgFragmentProfile != CgProfile.Unknown)
             {

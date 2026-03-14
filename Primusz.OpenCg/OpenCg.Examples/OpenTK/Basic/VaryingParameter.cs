@@ -90,7 +90,7 @@ namespace OpenCg.Examples.OpenTK.Basic
             CgGL.LoadProgram(cgVertexProgram);
 
             cgFragmentProfile = CgGL.GetLatestProfile(CgGLEnum.Fragment);
-            string[] fArgs = CgGL.GetOptimalOptions(cgVertexProfile);
+            string[] fArgs = CgGL.GetOptimalOptions(cgFragmentProfile);
 
             if (cgFragmentProfile != CgProfile.Unknown)
             {

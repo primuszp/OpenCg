@@ -35,6 +35,7 @@ namespace OpenCg.Examples.OpenTK.Basic
         private CgParameter vertexParamModelViewProj, fragmentParamColor;
 
         private static readonly float[] ProjectionMatrix = new float[16];
+        private const double EyeAngularSpeed = 0.48f; // Matches the old 0.008/frame speed at ~60 FPS.
 
         // Angle eye rotates around scene.
         private static float eyeAngle;
@@ -54,7 +55,7 @@ namespace OpenCg.Examples.OpenTK.Basic
         {
             /* Add a small angle (in radians). */
 
-            eyeAngle += 0.008f;
+            eyeAngle += (float)(EyeAngularSpeed * e.Time);
             
             if (eyeAngle > 2 * Pi)
             {
