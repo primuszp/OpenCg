@@ -1,4 +1,4 @@
-﻿namespace OpenCg.Examples
+namespace OpenCg.Examples
 {
     partial class MainForm
     {
@@ -35,7 +35,7 @@
             // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(12, 256);
+            this.btnRun.Location = new System.Drawing.Point(12, 420);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(260, 33);
             this.btnRun.TabIndex = 0;
@@ -60,10 +60,21 @@
             "[11] Two Lights with Structs",
             "[12] Light Attenuation",
             "[13] Spotlight",
-            "[14] Bulge"});
+            "[14] Bulge",
+            "[15] Particle System",
+            "[16] Bump Mapping",
+            "[17] Projective Texturing",
+            "[18] Cube Map Reflection",
+            "[19] Cube Map Refraction",
+            "[20] Chromatic Dispersion",
+            "[21] Specular Bump Map",
+            "[22] Bump Map Floor",
+            "[23] Bump Map Torus",
+            "[24] Uniform Fog",
+            "[25] Toon Shading"});
             this.listBox.Location = new System.Drawing.Point(12, 12);
             this.listBox.Name = "listBox";
-            this.listBox.Size = new System.Drawing.Size(260, 238);
+            this.listBox.Size = new System.Drawing.Size(260, 400);
             this.listBox.TabIndex = 1;
             this.listBox.SelectedIndexChanged += new System.EventHandler(this.ListBoxSelectedIndexChanged);
             // 
@@ -71,7 +82,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 340);
+            this.ClientSize = new System.Drawing.Size(284, 465);
             this.Controls.Add(this.listBox);
             this.Controls.Add(this.btnRun);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;

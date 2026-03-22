@@ -19,6 +19,7 @@
     <PackageReference Include="OpenTK.Windowing.Common" Version="4.8.2" />
     <PackageReference Include="OpenTK.Windowing.Desktop" Version="4.8.2" />
     <PackageReference Include="OpenTK.Windowing.GraphicsLibraryFramework" Version="4.8.2" />
+    <PackageReference Include="Pfim" Version="0.11.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +28,9 @@
 
   <ItemGroup>
     <None Update="Data\Shaders\*.cg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Images\*.dds">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

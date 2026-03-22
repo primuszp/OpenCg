@@ -213,7 +213,7 @@ namespace OpenCg.Graphics
         private static extern CgEnum cgGetAutoCompile(CgContext context);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern CgBehavior cgGetBehavior(string behaviorString);
+        private static extern CgBehavior cgGetBehavior([In] string behaviorString);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr cgGetBehaviorString(CgBehavior behavior);
@@ -255,7 +255,7 @@ namespace OpenCg.Graphics
         private static extern CgParameter cgGetDependentStateAssignmentParameter(CgStateAssignment stateassignment, int index);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern CgDomain cgGetDomain(string domainString);
+        private static extern CgDomain cgGetDomain([In] string domainString);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr cgGetDomainString(CgDomain domain);
@@ -519,7 +519,7 @@ namespace OpenCg.Graphics
         private static extern CgParameterClass cgGetParameterClass(CgParameter param);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern CgParameterClass cgGetParameterClassEnum(string pString);
+        private static extern CgParameterClass cgGetParameterClassEnum([In] string pString);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr cgGetParameterClassString(CgParameterClass pc);
@@ -870,10 +870,10 @@ namespace OpenCg.Graphics
         private static extern void cgSetCompilerIncludeCallback(CgContext context, IncludeCallbackFuncDelegate func);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgSetCompilerIncludeFile(CgContext context, string name, string filename);
+        private static extern void cgSetCompilerIncludeFile(CgContext context, [In] string name, [In] string filename);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgSetCompilerIncludeString(CgContext context, string name, string source);
+        private static extern void cgSetCompilerIncludeString(CgContext context, [In] string name, [In] string source);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern void cgSetContextBehavior(CgContext context, CgBehavior behavior);
@@ -909,7 +909,7 @@ namespace OpenCg.Graphics
         private static extern CgBool cgSetIntStateAssignment(CgStateAssignment stateassignment, int value);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgSetLastListing(CgHandle handle, string listing);
+        private static extern void cgSetLastListing(CgHandle handle, [In] string listing);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgEnum cgSetLockingPolicy(CgEnum lockingPolicy);

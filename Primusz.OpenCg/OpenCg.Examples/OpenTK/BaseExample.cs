@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
@@ -13,6 +13,7 @@ using OpenTK.Windowing.Common.Input;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenCg.Graphics;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace OpenCg.Examples.OpenTK
 {
@@ -25,6 +26,7 @@ namespace OpenCg.Examples.OpenTK
 
         protected const float Pi = 3.14159265358979323846f;
 
+        private KeyboardState lastKeyboardState;
         #endregion
 
         protected BaseExample(string title, int width, int height)
@@ -81,6 +83,27 @@ namespace OpenCg.Examples.OpenTK
             errorDelegate += CgErrorDelegate;
             Run();
             Dispose();
+        }
+
+        protected override void OnKeyDown(KeyboardKeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+        }
+        
+        protected bool IsKeyDown(Keys key)
+        {
+            return KeyboardState.IsKeyDown(key);
+        }
+
+        protected bool WasKeyDown(Keys key)
+        {
+            return lastKeyboardState != null && lastKeyboardState.IsKeyDown(key);
+        }
+
+        protected override void OnUpdateFrame(FrameEventArgs e)
+        {
+            base.OnUpdateFrame(e);
+            lastKeyboardState = KeyboardState.GetSnapshot();
         }
 
         #endregion

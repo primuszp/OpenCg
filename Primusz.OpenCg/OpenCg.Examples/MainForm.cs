@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using OpenCg.Examples.OpenTK.Basic;
 
@@ -38,6 +38,17 @@ namespace OpenCg.Examples
                 case 11: example = new LightAttenuation(); break;
                 case 12: example = new Spotlight(); break;
                 case 13: example = new Bulge(); break;
+                case 14: example = new Particle(); break;
+                case 15: example = new BumpMapping(); break;
+                case 16: example = new ProjectiveTexturing(); break;
+                case 17: example = new CubeMapReflection(); break;
+                case 18: example = new CubeMapRefraction(); break;
+                case 19: example = new ChromaticDispersion(); break;
+                case 20: example = new SpecularBumpMap(); break;
+                case 21: example = new BumpMapFloor(); break;
+                case 22: example = new BumpMapTorus(); break;
+                case 23: example = new UniformFog(); break;
+                case 24: example = new ToonShading(); break;
             }
 
             example?.Start();

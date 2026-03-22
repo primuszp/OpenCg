@@ -44,6 +44,7 @@ packages
 lib
 
 # User-specific files
+.vs/
 *.suo
 *.user
 *.sln.docstates
