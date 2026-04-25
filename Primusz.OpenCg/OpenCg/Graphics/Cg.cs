@@ -29,9 +29,60 @@ namespace OpenCg.Graphics
         public delegate void ErrorHandlerFuncDelegate(CgContext context, CgError error, IntPtr appdata);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void IncludeCallbackFuncDelegate(CgContext context, [In]string filename);
+        public delegate void IncludeCallbackFuncDelegate(CgContext context, [MarshalAs(UnmanagedType.LPStr)] string filename);
 
         #endregion Delegates
+
+        #region Callback Roots
+
+        private static readonly object CallbackSyncRoot = new object();
+        private static ErrorCallbackFuncDelegate errorCallbackRoot;
+        private static ErrorHandlerFuncDelegate errorHandlerRoot;
+        private static readonly Dictionary<CgContext, IncludeCallbackFuncDelegate> includeCallbackRoots = new Dictionary<CgContext, IncludeCallbackFuncDelegate>();
+        private static readonly Dictionary<CgState, StateCallbackRoots> stateCallbackRoots = new Dictionary<CgState, StateCallbackRoots>();
+        private static event EventHandler<ErrorEventArgs> error;
+
+        private sealed class StateCallbackRoots
+        {
+            public StateCallbackDelegate Set;
+            public StateCallbackDelegate Reset;
+            public StateCallbackDelegate Validate;
+        }
+
+        #endregion Callback Roots
+
+        #region Events
+
+        public static event EventHandler<ErrorEventArgs> Error
+        {
+            add
+            {
+                lock (CallbackSyncRoot)
+                {
+                    if (error == null)
+                    {
+                        SetErrorCallback(OnError);
+                    }
+
+                    error += value;
+                }
+            }
+
+            remove
+            {
+                lock (CallbackSyncRoot)
+                {
+                    error -= value;
+
+                    if (error == null)
+                    {
+                        SetErrorCallback(null);
+                    }
+                }
+            }
+        }
+
+        #endregion Events
 
         #region Functions
 
@@ -469,7 +520,7 @@ namespace OpenCg.Graphics
         /// <param name="entry">The entry point to the program in the Cg source.  If NULL, the entry point defaults to "main".</param>
         /// <param name="args">If args is not NULL it is assumed to be an array of NULL-terminated  strings that will be passed directly to the compiler as arguments.  The last value of the array must be a NULL.</param>
         /// <returns>Returns a CgProgram handle on success. Returns NULL if an error occurs.</returns>
-        public static IntPtr CreateProgramFromEffect(CgEffect effect, CgProfile profile, [In]string entry, [In]string[] args)
+        public static CgProgram CreateProgramFromEffect(CgEffect effect, CgProfile profile, [In]string entry, [In]string[] args)
         {
             return InvokeWithStringArray(args, nativeArgs => cgCreateProgramFromEffect(effect, profile, entry, nativeArgs));
         }
@@ -1662,6 +1713,12 @@ namespace OpenCg.Graphics
         public static CgType GetNamedUserType(CgHandle handle, [In]string name)
         { return cgGetNamedUserType(handle, name); }
 
+        public static CgType GetNamedUserType(CgProgram program, [In]string name)
+        { return cgGetNamedUserTypeFromProgram(program, name); }
+
+        public static CgType GetNamedUserType(CgEffect effect, [In]string name)
+        { return cgGetNamedUserTypeFromEffect(effect, name); }
+
         /// <summary>
         /// <para>The annotations associated with a param, pass, technique, or program can be iterated over by using cgGetNextAnnotation.</para>
         /// <para>ERROR: CG_INVALID_ANNOTATION_HANDLE_ERROR is generated if ann is not a valid annotation.</para>
@@ -1846,6 +1903,12 @@ namespace OpenCg.Graphics
         /// <returns>Returns the number of user defined types.</returns>
         public static int GetNumUserTypes(CgHandle handle)
         { return cgGetNumUserTypes(handle); }
+
+        public static int GetNumUserTypes(CgProgram program)
+        { return cgGetNumUserTypesFromProgram(program); }
+
+        public static int GetNumUserTypes(CgEffect effect)
+        { return cgGetNumUserTypesFromEffect(effect); }
 
         /// <summary>
         /// <para>cgGetParameterBaseResource allows the application to  retrieve the base resource for a param in a Cg program.</para>
@@ -2971,6 +3034,12 @@ namespace OpenCg.Graphics
         public static CgType GetUserType(CgHandle handle, int index)
         { return cgGetUserType(handle, index); }
 
+        public static CgType GetUserType(CgProgram program, int index)
+        { return cgGetUserTypeFromProgram(program, index); }
+
+        public static CgType GetUserType(CgEffect effect, int index)
+        { return cgGetUserTypeFromEffect(effect, index); }
+
         /// <summary>
         /// <para>cgIsAnnotation returns CG_TRUE if ann references a valid annotation, CG_FALSE otherwise.</para>
         /// <para>VERSION: cgIsAnnotation was introduced in Cg 1.4.</para>
@@ -3255,7 +3324,21 @@ namespace OpenCg.Graphics
         /// <param name="context">The context for which the include callback will be used.</param>
         /// <param name="func">A pointer to the include callback function.</param>
         public static void SetCompilerIncludeCallback(CgContext context, IncludeCallbackFuncDelegate func)
-        { cgSetCompilerIncludeCallback(context, func); }
+        {
+            lock (CallbackSyncRoot)
+            {
+                if (func == null)
+                {
+                    includeCallbackRoots.Remove(context);
+                }
+                else
+                {
+                    includeCallbackRoots[context] = func;
+                }
+            }
+
+            cgSetCompilerIncludeCallback(context, func);
+        }
 
         /// <summary>
         /// <para>Each Cg runtime context maintains a virtual filesystem of shader source source for inclusion by the compiler.</para>
@@ -3326,7 +3409,14 @@ namespace OpenCg.Graphics
         /// </summary>
         /// <param name="func">A function pointer to the error callback function.</param>
         public static void SetErrorCallback(ErrorCallbackFuncDelegate func)
-        { cgSetErrorCallback(func); }
+        {
+            lock (CallbackSyncRoot)
+            {
+                errorCallbackRoot = func;
+            }
+
+            cgSetErrorCallback(func);
+        }
 
         /// <summary>
         /// <para>cgSetErrorHandler specifies an error handler function that will be called every time a Cg runtime error occurrs.</para>
@@ -3339,7 +3429,14 @@ namespace OpenCg.Graphics
         /// <param name="func">A pointer to the error handler callback function.</param>
         /// <param name="data">A pointer to arbitrary application-provided data.</param>
         public static void SetErrorHandler(ErrorHandlerFuncDelegate func, IntPtr data)
-        { cgSetErrorHandler(func, data); }
+        {
+            lock (CallbackSyncRoot)
+            {
+                errorHandlerRoot = func;
+            }
+
+            cgSetErrorHandler(func, data);
+        }
 
         /// <summary>
         /// <para>cgSetFloatAnnotation sets the value of an annotation of float type.</para>
@@ -3941,7 +4038,26 @@ namespace OpenCg.Graphics
         /// <param name="reset">The pointer to the callback function to call for resetting the state of state assignments based on state.  This may be a NULL pointer.</param>
         /// <param name="validate">The pointer to the callback function to call for validating the state of state assignments based on state.  This may be a NULL pointer.</param>
         public static void SetStateCallbacks(CgState state, StateCallbackDelegate set, StateCallbackDelegate reset, StateCallbackDelegate validate)
-        { cgSetStateCallbacks(state, set, reset, validate); }
+        {
+            lock (CallbackSyncRoot)
+            {
+                if (set == null && reset == null && validate == null)
+                {
+                    stateCallbackRoots.Remove(state);
+                }
+                else
+                {
+                    stateCallbackRoots[state] = new StateCallbackRoots
+                    {
+                        Set = set,
+                        Reset = reset,
+                        Validate = validate
+                    };
+                }
+            }
+
+            cgSetStateCallbacks(state, set, reset, validate);
+        }
 
         /// <summary>
         /// <para>cgSetStateLatestProfile sets the specified state's designated latest profile for states of type CG_PROGRAM_TYPE.</para>
@@ -4214,6 +4330,20 @@ namespace OpenCg.Graphics
             if (nativeArray != IntPtr.Zero)
             {
                 Marshal.FreeHGlobal(nativeArray);
+            }
+        }
+
+        private static void OnError()
+        {
+            EventHandler<ErrorEventArgs> handler;
+            lock (CallbackSyncRoot)
+            {
+                handler = error;
+            }
+
+            if (handler != null)
+            {
+                handler(null, new ErrorEventArgs(GetError()));
             }
         }
 

@@ -138,7 +138,7 @@ namespace OpenCg.Graphics
         private static extern CgAnnotation cgCreateProgramAnnotation(CgProgram program, [In]string name, CgType type);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern IntPtr cgCreateProgramFromEffect(CgEffect effect, CgProfile profile, [In] string entry, IntPtr args);
+        private static extern CgProgram cgCreateProgramFromEffect(CgEffect effect, CgProfile profile, [In] string entry, IntPtr args);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgProgram cgCreateProgramFromFile(CgContext context, CgEnum program_type, [In] string program_file, CgProfile profile, [In] string entry, IntPtr args);
@@ -449,6 +449,12 @@ namespace OpenCg.Graphics
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgType cgGetNamedUserType(CgHandle handle, [In] string name);
 
+        [DllImport(CgNativeLibrary, CallingConvention = Convention, EntryPoint = "cgGetNamedUserType"), SuppressUnmanagedCodeSecurity]
+        private static extern CgType cgGetNamedUserTypeFromProgram(CgProgram program, [In] string name);
+
+        [DllImport(CgNativeLibrary, CallingConvention = Convention, EntryPoint = "cgGetNamedUserType"), SuppressUnmanagedCodeSecurity]
+        private static extern CgType cgGetNamedUserTypeFromEffect(CgEffect effect, [In] string name);
+
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgAnnotation cgGetNextAnnotation(CgAnnotation annotation);
 
@@ -502,6 +508,12 @@ namespace OpenCg.Graphics
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern int cgGetNumUserTypes(CgHandle handle);
+
+        [DllImport(CgNativeLibrary, CallingConvention = Convention, EntryPoint = "cgGetNumUserTypes"), SuppressUnmanagedCodeSecurity]
+        private static extern int cgGetNumUserTypesFromProgram(CgProgram program);
+
+        [DllImport(CgNativeLibrary, CallingConvention = Convention, EntryPoint = "cgGetNumUserTypes"), SuppressUnmanagedCodeSecurity]
+        private static extern int cgGetNumUserTypesFromEffect(CgEffect effect);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgResource cgGetParameterBaseResource(CgParameter param);
@@ -787,6 +799,12 @@ namespace OpenCg.Graphics
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgType cgGetUserType(CgHandle handle, int index);
+
+        [DllImport(CgNativeLibrary, CallingConvention = Convention, EntryPoint = "cgGetUserType"), SuppressUnmanagedCodeSecurity]
+        private static extern CgType cgGetUserTypeFromProgram(CgProgram program, int index);
+
+        [DllImport(CgNativeLibrary, CallingConvention = Convention, EntryPoint = "cgGetUserType"), SuppressUnmanagedCodeSecurity]
+        private static extern CgType cgGetUserTypeFromEffect(CgEffect effect, int index);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgBool cgIsAnnotation(CgAnnotation annotation);

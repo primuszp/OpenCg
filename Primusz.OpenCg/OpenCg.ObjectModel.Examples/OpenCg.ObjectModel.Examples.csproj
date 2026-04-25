@@ -4,11 +4,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <AssemblyName>OpenCg.Examples</AssemblyName>
-    <RootNamespace>OpenCg.Examples</RootNamespace>
+    <AssemblyName>OpenCg.ObjectModel.Examples</AssemblyName>
+    <RootNamespace>OpenCg.ObjectModel.Examples</RootNamespace>
     <PlatformTarget>x86</PlatformTarget>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
@@ -27,16 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Data\Shaders\*.cg">
+    <None Include="..\OpenCg.Examples\Data\Shaders\*.cg" Link="Data\Shaders\%(Filename)%(Extension)">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Data\Images\*.dds">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Images\*.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Models\*.obj">
+    <None Include="..\OpenCg.Examples\Data\Images\*.dds" Link="Data\Images\%(Filename)%(Extension)">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

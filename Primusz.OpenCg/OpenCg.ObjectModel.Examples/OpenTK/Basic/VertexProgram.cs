@@ -1,0 +1,140 @@
+using System;
+using OpenCg.Graphics;
+using OpenCg.Graphics.OpenGL;
+using OpenCg.Graphics.ObjectModel;
+using OpenCg.Graphics.ObjectModel.OpenGL;
+using CgProgramObject = OpenCg.Graphics.ObjectModel.Program;
+using CgParameterObject = OpenCg.Graphics.ObjectModel.Parameter;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+
+#region Original Credits / License
+
+// OpenGL-based very simple vertex program example
+// using Cg program from Chapter 2 of "The Cg Tutorial" (Addison-Wesley, ISBN 0321194969).
+
+#endregion
+
+#region Porting Credits
+
+// Ported from C to C# by Tobias Bohnen for the CgNet v1.0 Copyright (c) 2010.
+// Modified it by Péter Primusz for the OpenCg v1.0.1 Copyright (c) 2011.
+
+#endregion Porting Credits
+
+namespace OpenCg.ObjectModel.Examples.OpenTK.Basic
+{
+    [ExampleAttribute("OpenTK/Basic/[01] Vertex Program")]
+    class VertexProgram : BaseExample
+    {
+        #region Members
+
+        private string vertexProgramFileName = "Data\\Shaders\\C2E1v_green.cg";
+        private string cgVertexEntryFuncName = "C2E1v_green";
+
+        private CgProfile cgVertexProfile = CgProfile.Unknown;
+        private CgProgramObject cgVertexProgram;
+
+        #endregion
+
+        #region Constructors
+
+        public VertexProgram()
+            : base("Cg Tutorial 01: Vertex program", 400, 400)
+        { }
+
+        #endregion
+
+        protected override void OnRenderFrame(FrameEventArgs e)
+        {
+            Display();
+        }
+
+        protected override void OnUpdateFrame(FrameEventArgs e)
+        {
+            if (IsKeyDown(Keys.Escape))
+            {
+                Close();
+            }
+        }
+
+        protected override void OnResize(ResizeEventArgs e)
+        {
+            Reshape();
+            Display();
+        }
+
+        protected override void OnLoad()
+        {
+            context = OpenCg.Graphics.ObjectModel.Context.Create();
+
+            Cg.SetErrorCallback(errorDelegate);
+            cgVertexProfile = CgGL.GetLatestProfile(CgGLEnum.Vertex);
+
+            string[] args = CgGL.GetOptimalOptions(cgVertexProfile);
+
+            if (cgVertexProfile != CgProfile.Unknown)
+            {
+                if (CgGL.IsProfileSupported(cgVertexProfile))
+                {
+                    CgGL.SetOptimalOptions(cgVertexProfile);
+                }
+            }
+
+            cgVertexProgram = context.CreateProgramFromFile(                  // Cg runtime context
+               CgEnum.Source,            // Program in human-readable form
+               vertexProgramFileName,    // Name of file containing program
+               cgVertexProfile,          // Profile: OpenGL ARB vertex program
+               cgVertexEntryFuncName,    // Entry function name
+               args);                    // Extra compiler options
+
+            OpenCg.Graphics.ObjectModel.OpenGL.ProgramExtensions.Load(cgVertexProgram);
+        }
+
+        protected override void OnUnload()
+        {
+            base.OnUnload();
+            DisposeProgram(cgVertexProgram);
+            context?.Dispose();
+        }
+
+        #region Methods
+
+        private void Reshape()
+        {
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+
+            GL.Viewport(0, 0, ClientSize.X, ClientSize.Y);
+            GL.Ortho(0, 0, ClientSize.X, ClientSize.Y, -1, +1);
+
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
+        }
+
+        private void Display()
+        {
+            GL.ClearColor(0.1f, 0.3f, 0.6f, 0.0f);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+            OpenCg.Graphics.ObjectModel.OpenGL.ProgramExtensions.Bind(cgVertexProgram);
+            CgGL.EnableProfile(cgVertexProfile);
+
+            GL.Begin(BeginMode.Triangles);
+            {
+                GL.Vertex2(-0.8f, +0.8f);
+                GL.Vertex2(+0.8f, +0.8f);
+                GL.Vertex2(+0.0f, -0.8f);
+            }
+            GL.End();
+
+            CgGL.DisableProfile(cgVertexProfile);
+
+            SwapBuffers();
+        }
+
+        #endregion
+    }
+}

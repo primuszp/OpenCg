@@ -154,6 +154,11 @@ namespace OpenCg.Graphics
         /// Keeps the struct from being garbage collected prematurely.
         /// </summary>
         private IntPtr Data;
+
+        public bool IsNull
+        {
+            get { return Data == IntPtr.Zero; }
+        }
     }
 
     /// <summary>

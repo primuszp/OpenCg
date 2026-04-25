@@ -1,0 +1,22 @@
+float4 main(float2 texCoord           : TEXCOORD0,
+            float3 eyePosition        : TEXCOORD1,
+            float3 eyeNormal          : TEXCOORD2,
+            uniform sampler2D diffuseMap,
+            uniform float3 lightPosition,
+            uniform float3 ambientColor,
+            uniform float3 diffuseColor,
+            uniform float3 specularColor,
+            uniform float shininess) : COLOR
+{
+    float3 n = normalize(eyeNormal);
+    float3 l = normalize(lightPosition - eyePosition);
+    float3 v = normalize(-eyePosition);
+    float3 r = reflect(-l, n);
+
+    float ndotl = saturate(dot(n, l));
+    float spec = pow(saturate(dot(r, v)), shininess);
+    float4 texel = tex2D(diffuseMap, texCoord);
+
+    float3 lit = ambientColor + diffuseColor * ndotl + specularColor * spec;
+    return float4(texel.rgb * lit, texel.a);
+}

@@ -71,7 +71,8 @@ namespace OpenCg.Examples
             "[22] Bump Map Floor",
             "[23] Bump Map Torus",
             "[24] Uniform Fog",
-            "[25] Toon Shading"});
+            "[25] Toon Shading",
+            "[26] Phong Model"});
             this.listBox.Location = new System.Drawing.Point(12, 12);
             this.listBox.Name = "listBox";
             this.listBox.Size = new System.Drawing.Size(260, 400);

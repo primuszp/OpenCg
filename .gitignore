@@ -67,6 +67,7 @@ build/
 *.ilk
 *.meta
 *.obj
+!Primusz.OpenCg/OpenCg.Examples/Data/Models/blaze.obj
 *.pch
 *.pdb
 *.pgc

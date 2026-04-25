@@ -49,6 +49,7 @@ namespace OpenCg.Examples
                 case 22: example = new BumpMapTorus(); break;
                 case 23: example = new UniformFog(); break;
                 case 24: example = new ToonShading(); break;
+                case 25: example = new PhongModel(); break;
             }
 
             example?.Start();
