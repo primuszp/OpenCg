@@ -375,22 +375,22 @@ namespace OpenCg.Graphics
         private static extern CgEnum cgGetMatrixParameterOrder(CgParameter param);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGetMatrixParameterdc(CgParameter param, [In] double[] matrix);
+        private static extern void cgGetMatrixParameterdc(CgParameter param, [Out] double[] matrix);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGetMatrixParameterdr(CgParameter param, [In] double[] matrix);
+        private static extern void cgGetMatrixParameterdr(CgParameter param, [Out] double[] matrix);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGetMatrixParameterfc(CgParameter param, [In] float[] matrix);
+        private static extern void cgGetMatrixParameterfc(CgParameter param, [Out] float[] matrix);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGetMatrixParameterfr(CgParameter param, [In] float[] matrix);
+        private static extern void cgGetMatrixParameterfr(CgParameter param, [Out] float[] matrix);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGetMatrixParameteric(CgParameter param, [In] int[] matrix);
+        private static extern void cgGetMatrixParameteric(CgParameter param, [Out] int[] matrix);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGetMatrixParameterir(CgParameter param, [In] int[] matrix);
+        private static extern void cgGetMatrixParameterir(CgParameter param, [Out] int[] matrix);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern void cgGetMatrixSize(CgType type, out int nrows, out int ncols);

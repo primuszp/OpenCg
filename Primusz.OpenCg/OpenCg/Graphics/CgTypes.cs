@@ -26,7 +26,7 @@ namespace OpenCg.Graphics
 
         public static implicit operator bool(CgBool boolean)
         {
-            return boolean.Data == 1;
+            return boolean.Data != 0;
         }
 
         public static CgBool operator ==(CgBool me, CgBool other)
@@ -41,7 +41,7 @@ namespace OpenCg.Graphics
 
         public bool Equals(CgBool other)
         {
-            return (Equals(this, other));
+            return this.Data == other.Data;
         }
 
         public override bool Equals(object obj)
@@ -51,7 +51,7 @@ namespace OpenCg.Graphics
                 return false;
             }
 
-            return (Equals(this, (CgBool)obj));
+            return this.Data == ((CgBool)obj).Data;
         }
 
         public override int GetHashCode()

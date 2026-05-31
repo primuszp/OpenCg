@@ -115,40 +115,40 @@ namespace OpenCg.Graphics.OpenGL
         private static extern void cgGLGetMatrixParameterArrayfr(CgParameter param, long offset, long nelements, [Out]IntPtr v);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private unsafe static extern void cgGLGetMatrixParameterdc(CgParameter param, [In]double* matrix);
+        private unsafe static extern void cgGLGetMatrixParameterdc(CgParameter param, [Out]double* matrix);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGLGetMatrixParameterdc(CgParameter param, [In]double[] matrix);
+        private static extern void cgGLGetMatrixParameterdc(CgParameter param, [Out]double[] matrix);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGLGetMatrixParameterdc(CgParameter param, [In]IntPtr matrix);
+        private static extern void cgGLGetMatrixParameterdc(CgParameter param, [Out]IntPtr matrix);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private unsafe static extern void cgGLGetMatrixParameterdr(CgParameter param, [In]double* matrix);
+        private unsafe static extern void cgGLGetMatrixParameterdr(CgParameter param, [Out]double* matrix);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGLGetMatrixParameterdr(CgParameter param, [In]double[] matrix);
+        private static extern void cgGLGetMatrixParameterdr(CgParameter param, [Out]double[] matrix);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGLGetMatrixParameterdr(CgParameter param, [In]IntPtr matrix);
+        private static extern void cgGLGetMatrixParameterdr(CgParameter param, [Out]IntPtr matrix);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private unsafe static extern void cgGLGetMatrixParameterfc(CgParameter param, [In]float* matrix);
+        private unsafe static extern void cgGLGetMatrixParameterfc(CgParameter param, [Out]float* matrix);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGLGetMatrixParameterfc(CgParameter param, [In]float[] matrix);
+        private static extern void cgGLGetMatrixParameterfc(CgParameter param, [Out]float[] matrix);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGLGetMatrixParameterfc(CgParameter param, [In]IntPtr matrix);
+        private static extern void cgGLGetMatrixParameterfc(CgParameter param, [Out]IntPtr matrix);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private unsafe static extern void cgGLGetMatrixParameterfr(CgParameter param, [In]float* matrix);
+        private unsafe static extern void cgGLGetMatrixParameterfr(CgParameter param, [Out]float* matrix);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGLGetMatrixParameterfr(CgParameter param, [In]float[] matrix);
+        private static extern void cgGLGetMatrixParameterfr(CgParameter param, [Out]float[] matrix);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
-        private static extern void cgGLGetMatrixParameterfr(CgParameter param, [In]IntPtr matrix);
+        private static extern void cgGLGetMatrixParameterfr(CgParameter param, [Out]IntPtr matrix);
 
         [DllImport(CgGLNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr cgGLGetOptimalOptions(CgProfile profile);

@@ -6,6 +6,7 @@ namespace OpenCg.Graphics.ObjectModel
     public sealed class Context : CgObject
     {
         private readonly CgContext handle;
+        private readonly object callbackSyncRoot = new object();
         private EventHandler<CompilerIncludeEventArgs> compilerInclude;
         private readonly Cg.IncludeCallbackFuncDelegate includeCallback;
 
@@ -25,21 +26,27 @@ namespace OpenCg.Graphics.ObjectModel
         {
             add
             {
-                if (compilerInclude == null)
+                lock (callbackSyncRoot)
                 {
-                    Cg.SetCompilerIncludeCallback(Handle, includeCallback);
-                }
+                    if (compilerInclude == null)
+                    {
+                        Cg.SetCompilerIncludeCallback(Handle, includeCallback);
+                    }
 
-                compilerInclude += value;
+                    compilerInclude += value;
+                }
             }
 
             remove
             {
-                compilerInclude -= value;
-
-                if (compilerInclude == null)
+                lock (callbackSyncRoot)
                 {
-                    Cg.SetCompilerIncludeCallback(Handle, null);
+                    compilerInclude -= value;
+
+                    if (compilerInclude == null)
+                    {
+                        Cg.SetCompilerIncludeCallback(Handle, null);
+                    }
                 }
             }
         }
@@ -196,9 +203,15 @@ namespace OpenCg.Graphics.ObjectModel
 
         private void OnCompilerInclude(CgContext context, string fileName)
         {
-            if (compilerInclude != null && context.Equals(handle))
+            EventHandler<CompilerIncludeEventArgs> handler;
+            lock (callbackSyncRoot)
             {
-                compilerInclude(this, new CompilerIncludeEventArgs(fileName));
+                handler = compilerInclude;
+            }
+
+            if (handler != null && context.Equals(handle))
+            {
+                handler(this, new CompilerIncludeEventArgs(fileName));
             }
         }
     }

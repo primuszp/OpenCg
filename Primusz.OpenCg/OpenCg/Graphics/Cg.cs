@@ -4181,7 +4181,7 @@ namespace OpenCg.Graphics
                 var retValue = new bool[intValues.Length];
                 for (int i = 0; i < intValues.Length; i++)
                 {
-                    retValue[i] = intValues[i] == True;
+                    retValue[i] = intValues[i] != 0;
                 }
                 return retValue;
             }
