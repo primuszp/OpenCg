@@ -109,7 +109,7 @@ namespace OpenCg.ObjectModel.Examples.OpenTK.Basic
 
             cgFragmentProfile = CgGL.GetLatestProfile(CgGLEnum.Fragment);
 
-            string[] fArgs = CgGL.GetOptimalOptions(cgVertexProfile);
+            string[] fArgs = CgGL.GetOptimalOptions(cgFragmentProfile);
 
             if (cgFragmentProfile != CgProfile.Unknown)
             {
