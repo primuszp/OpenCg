@@ -170,6 +170,13 @@ namespace OpenCg.Examples.OpenTK.Basic
             SwapBuffers();
         }
 
+        protected override void OnUnload()
+        {
+            Cg.DestroyProgram(cgVertexProgram);
+            Cg.DestroyProgram(cgFragmentProgram);
+            Cg.DestroyContext(context);
+        }
+
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             if (animating)

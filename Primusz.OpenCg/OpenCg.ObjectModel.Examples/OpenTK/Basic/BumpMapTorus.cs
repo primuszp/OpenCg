@@ -173,6 +173,15 @@ namespace OpenCg.ObjectModel.Examples.OpenTK.Basic
             SwapBuffers();
         }
 
+        protected override void OnUnload()
+        {
+            GL.DeleteTexture(normalMapTexture);
+            GL.DeleteTexture(normalizeCubeTexture);
+            DisposeProgram(cgVertexProgram);
+            DisposeProgram(cgFragmentProgram);
+            context?.Dispose();
+        }
+
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             if (animating)

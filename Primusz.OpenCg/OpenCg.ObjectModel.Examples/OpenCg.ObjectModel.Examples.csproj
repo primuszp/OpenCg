@@ -31,6 +31,9 @@
     <None Include="..\OpenCg.Examples\Data\Images\*.dds" Link="Data\Images\%(Filename)%(Extension)">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="..\OpenCg.Examples\Resources\cg.ico" Link="Resources\cg.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

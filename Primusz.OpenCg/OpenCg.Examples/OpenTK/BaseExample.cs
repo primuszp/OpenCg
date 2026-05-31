@@ -38,7 +38,7 @@ namespace OpenCg.Examples.OpenTK
                 APIVersion = new Version(3, 2)
             })
         {
-            const string iconPath = @"D:\Personal\OneDrive\Programming\Primusz\OpenCg Project\OpenCg\Logos\cg.ico";
+            string iconPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Resources", "cg.ico");
             if (File.Exists(iconPath))
             {
                 using var sysBitmap = new System.Drawing.Icon(iconPath).ToBitmap();
@@ -563,7 +563,7 @@ namespace OpenCg.Examples.OpenTK
             /* Apply perspective divide and copy to dst (so dst can vec). */
             for (i = 0; i < 3; i++)
             {
-                dst[i] = (float)(tmp[i] * tmp[3]);
+                dst[i] = (float)(tmp[i] / tmp[3]);
             }
             dst[3] = 1;
         }
