@@ -80,7 +80,8 @@ namespace OpenCg.Graphics.ObjectModel
         public bool[] GetBoolValues()
         {
             int[] count = new int[1];
-            return Cg.GetBoolStateAssignmentValues(Handle, count).Select(value => (bool)value).ToArray();
+            var values = Cg.GetBoolStateAssignmentValues(Handle, count);
+            return values == null ? Array.Empty<bool>() : values.Select(value => (bool)value).ToArray();
         }
 
         public Parameter GetDependentParameter(int index)
@@ -95,12 +96,12 @@ namespace OpenCg.Graphics.ObjectModel
 
         public float[] GetFloatValues()
         {
-            return Cg.GetFloatStateAssignmentValues(Handle, new int[1]);
+            return Cg.GetFloatStateAssignmentValues(Handle, new int[1]) ?? Array.Empty<float>();
         }
 
         public int[] GetIntValues()
         {
-            return Cg.GetIntStateAssignmentValues(Handle, new int[1]);
+            return Cg.GetIntStateAssignmentValues(Handle, new int[1]) ?? Array.Empty<int>();
         }
 
         public Program GetProgramValue()
@@ -155,6 +156,11 @@ namespace OpenCg.Graphics.ObjectModel
 
         public bool Set(float[] values)
         {
+            if (values == null)
+            {
+                throw new ArgumentNullException("values");
+            }
+
             return Cg.SetFloatArrayStateAssignment(Handle, values);
         }
 
@@ -165,6 +171,11 @@ namespace OpenCg.Graphics.ObjectModel
 
         public bool Set(int[] values)
         {
+            if (values == null)
+            {
+                throw new ArgumentNullException("values");
+            }
+
             return Cg.SetIntArrayStateAssignment(Handle, values);
         }
 

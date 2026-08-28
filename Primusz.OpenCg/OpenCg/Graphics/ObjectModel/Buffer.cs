@@ -9,6 +9,11 @@ namespace OpenCg.Graphics.ObjectModel
         internal Buffer(CgBuffer handle, bool ownsHandle)
             : base(ownsHandle)
         {
+            if (!Cg.IsBuffer(handle))
+            {
+                throw new ArgumentException("The supplied handle is not a valid Cg buffer.", "handle");
+            }
+
             this.handle = handle;
         }
 
@@ -58,7 +63,10 @@ namespace OpenCg.Graphics.ObjectModel
 
         protected override void ReleaseHandle()
         {
-            Cg.DestroyBuffer(handle);
+            if (Cg.IsBuffer(handle))
+            {
+                Cg.DestroyBuffer(handle);
+            }
         }
     }
 }

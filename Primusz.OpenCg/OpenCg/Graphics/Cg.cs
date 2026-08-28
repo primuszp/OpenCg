@@ -2841,7 +2841,7 @@ namespace OpenCg.Graphics
         {
             var ptr = cgGetStringAnnotationValues(ann, out nvalues);
 
-            if (nvalues == 0) return null;
+            if (ptr == IntPtr.Zero || nvalues == 0) return null;
 
             unsafe
             {
@@ -2882,7 +2882,7 @@ namespace OpenCg.Graphics
             int nvalues;
             var ptr = cgGetStringAnnotationValues(ann, out nvalues);
 
-            if (nvalues == 0) return null;
+            if (ptr == IntPtr.Zero || nvalues == 0) return null;
 
             unsafe
             {
@@ -3048,6 +3048,15 @@ namespace OpenCg.Graphics
         /// <returns>Returns CG_TRUE if ann references a valid annotation. Returns CG_FALSE otherwise.</returns>
         public static CgBool IsAnnotation(CgAnnotation ann)
         { return cgIsAnnotation(ann); }
+
+        /// <summary>
+        /// <para>cgIsBuffer returns CG_TRUE if buffer references a valid buffer, CG_FALSE otherwise.</para>
+        /// <para>VERSION: cgIsBuffer was introduced in Cg 2.0.</para>
+        /// </summary>
+        /// <param name="buffer">The buffer handle to check.</param>
+        /// <returns>Returns CG_TRUE if buffer references a valid buffer. Returns CG_FALSE otherwise.</returns>
+        public static CgBool IsBuffer(CgBuffer buffer)
+        { return cgIsBuffer(buffer); }
 
         /// <summary>
         /// <para>cgIsContext returns CG_TRUE if context references a valid context, CG_FALSE otherwise.</para>

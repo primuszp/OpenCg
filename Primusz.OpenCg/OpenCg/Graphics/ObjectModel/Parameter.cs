@@ -211,6 +211,11 @@ namespace OpenCg.Graphics.ObjectModel
 
         public void SetMatrix(float[] matrix, CgEnum order)
         {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException("matrix");
+            }
+
             if (order == CgEnum.ColumnMajor)
             {
                 Cg.SetMatrixParameterfc(Handle, matrix);
@@ -227,6 +232,11 @@ namespace OpenCg.Graphics.ObjectModel
 
         public float[] GetFloatValues(int elementCount, CgEnum order)
         {
+            if (elementCount < 0)
+            {
+                throw new ArgumentOutOfRangeException("elementCount");
+            }
+
             var values = new float[elementCount];
             if (order == CgEnum.ColumnMajor)
             {

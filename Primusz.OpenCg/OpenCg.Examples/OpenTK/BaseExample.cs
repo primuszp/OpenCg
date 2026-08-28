@@ -41,14 +41,23 @@ namespace OpenCg.Examples.OpenTK
             string iconPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Resources", "cg.ico");
             if (File.Exists(iconPath))
             {
-                using var sysBitmap = new System.Drawing.Icon(iconPath).ToBitmap();
+                using var sysIcon = new System.Drawing.Icon(iconPath);
+                using var sysBitmap = sysIcon.ToBitmap();
                 var bitmapData = sysBitmap.LockBits(
                     new Rectangle(0, 0, sysBitmap.Width, sysBitmap.Height),
                     ImageLockMode.ReadOnly,
                     System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                var pixels = new byte[sysBitmap.Width * sysBitmap.Height * 4];
-                Marshal.Copy(bitmapData.Scan0, pixels, 0, pixels.Length);
-                sysBitmap.UnlockBits(bitmapData);
+                byte[] pixels;
+                try
+                {
+                    pixels = new byte[sysBitmap.Width * sysBitmap.Height * 4];
+                    Marshal.Copy(bitmapData.Scan0, pixels, 0, pixels.Length);
+                }
+                finally
+                {
+                    sysBitmap.UnlockBits(bitmapData);
+                }
+
                 // BGRA → RGBA
                 for (int i = 0; i < pixels.Length; i += 4)
                 {
@@ -72,7 +81,7 @@ namespace OpenCg.Examples.OpenTK
                     Console.WriteLine("Could not get Cg parameter!");
 
                 Console.WriteLine("Error: {0}", errorString);
-                Environment.Exit(0);
+                Environment.Exit(1);
             }
         }
 
@@ -81,8 +90,14 @@ namespace OpenCg.Examples.OpenTK
         public void Start()
         {
             errorDelegate += CgErrorDelegate;
-            Run();
-            Dispose();
+            try
+            {
+                Run();
+            }
+            finally
+            {
+                Dispose();
+            }
         }
 
         protected override void OnKeyDown(KeyboardKeyEventArgs e)
@@ -90,7 +105,7 @@ namespace OpenCg.Examples.OpenTK
             base.OnKeyDown(e);
         }
         
-        protected bool IsKeyDown(Keys key)
+        protected new bool IsKeyDown(Keys key)
         {
             return KeyboardState.IsKeyDown(key);
         }

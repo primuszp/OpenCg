@@ -2262,6 +2262,11 @@ namespace OpenCg.Graphics.OpenGL
         /// <returns>Returns a CgBuffer handle on success. Returns NULL if any error occurs.</returns>
         public static CgBuffer CreateBuffer<T2>(CgContext context, int size, [In, Out] T2[] data, int bufferUsage) where T2 : struct
         {
+            if (data == null)
+            {
+                return cgGLCreateBuffer(context, size, IntPtr.Zero, bufferUsage);
+            }
+
             GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
             try
             {
@@ -2283,6 +2288,11 @@ namespace OpenCg.Graphics.OpenGL
         /// <returns>Returns a CgBuffer handle on success. Returns NULL if any error occurs.</returns>
         public static CgBuffer CreateBuffer<T2>(CgContext context, int size, [In, Out] T2[,] data, int bufferUsage) where T2 : struct
         {
+            if (data == null)
+            {
+                return cgGLCreateBuffer(context, size, IntPtr.Zero, bufferUsage);
+            }
+
             GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
             try
             {
@@ -2304,6 +2314,11 @@ namespace OpenCg.Graphics.OpenGL
         /// <returns>Returns a CgBuffer handle on success. Returns NULL if any error occurs.</returns>
         public static CgBuffer CreateBuffer<T2>(CgContext context, int size, [In, Out] T2[,,] data, int bufferUsage) where T2 : struct
         {
+            if (data == null)
+            {
+                return cgGLCreateBuffer(context, size, IntPtr.Zero, bufferUsage);
+            }
+
             GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
             try
             {

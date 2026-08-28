@@ -197,6 +197,17 @@ namespace OpenCg.Graphics.ObjectModel
         {
             if (Cg.IsContext(handle))
             {
+                foreach (State state in States)
+                {
+                    Cg.SetStateCallbacks(state.Handle, null, null, null);
+                }
+
+                foreach (State state in SamplerStates)
+                {
+                    Cg.SetStateCallbacks(state.Handle, null, null, null);
+                }
+
+                Cg.SetCompilerIncludeCallback(handle, null);
                 Cg.DestroyContext(handle);
             }
         }

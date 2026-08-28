@@ -810,6 +810,9 @@ namespace OpenCg.Graphics
         private static extern CgBool cgIsAnnotation(CgAnnotation annotation);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
+        private static extern CgBool cgIsBuffer(CgBuffer buffer);
+
+        [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]
         private static extern CgBool cgIsContext(CgContext context);
 
         [DllImport(CgNativeLibrary, CallingConvention = Convention), SuppressUnmanagedCodeSecurity]

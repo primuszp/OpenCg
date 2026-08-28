@@ -51,7 +51,8 @@ namespace OpenCg.Graphics.ObjectModel
         public bool[] GetBoolValues()
         {
             int count;
-            return Cg.GetBoolAnnotationValues(Handle, out count).Select(value => (bool)value).ToArray();
+            var values = Cg.GetBoolAnnotationValues(Handle, out count);
+            return values == null ? Array.Empty<bool>() : values.Select(value => (bool)value).ToArray();
         }
 
         public Parameter GetDependentParameter(int index)
@@ -70,13 +71,13 @@ namespace OpenCg.Graphics.ObjectModel
         public float[] GetFloatValues()
         {
             int count;
-            return Cg.GetFloatAnnotationValues(Handle, out count);
+            return Cg.GetFloatAnnotationValues(Handle, out count) ?? Array.Empty<float>();
         }
 
         public int[] GetIntValues()
         {
             int count;
-            return Cg.GetIntAnnotationValues(Handle, out count);
+            return Cg.GetIntAnnotationValues(Handle, out count) ?? Array.Empty<int>();
         }
 
         public string GetStringValue()
@@ -87,7 +88,7 @@ namespace OpenCg.Graphics.ObjectModel
         public string[] GetStringValues()
         {
             int count;
-            return Cg.GetStringAnnotationValues(Handle, out count);
+            return Cg.GetStringAnnotationValues(Handle, out count) ?? Array.Empty<string>();
         }
 
         public bool Set(bool value)
